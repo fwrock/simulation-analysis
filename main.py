@@ -176,21 +176,11 @@ class SimulationAnalyzer:
         # Gerar visualizações
         plots = []
         
-        # Comparação de métricas básicas
-        basic_comparison_plot = self.visualizer.plot_basic_metrics_comparison(
-            htc_metrics, ref_metrics
+        # Criar análise completa com todos os novos gráficos
+        comprehensive_plots = self.visualizer.create_comprehensive_analysis(
+            htc_events, ref_events, top_n_links=20
         )
-        plots.append(basic_comparison_plot)
-        
-        # Distribuição de velocidades
-        speed_dist_plot = self.visualizer.plot_speed_distribution(htc_events, ref_events)
-        plots.append(speed_dist_plot)
-        
-        # Comparação de links
-        link_comparison_data = self.comparator.calculate_link_density_comparison(htc_events, ref_events)
-        if not link_comparison_data.empty:
-            link_plot = self.visualizer.plot_link_comparison(link_comparison_data)
-            plots.append(link_plot)
+        plots.extend(comprehensive_plots.values())
         
         # Dashboard interativo
         dashboard_path = self.visualizer.create_interactive_dashboard(

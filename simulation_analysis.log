@@ -298,3 +298,229 @@ ConnectionError: Não foi possível conectar ao Cassandra
 2025-10-05 08:49:07,086 - __main__ - INFO - Resultados salvos em: output/comparison_bfs_cenario_1000_viagens_2_vs_events.json
 2025-10-05 08:49:07,086 - __main__ - INFO - Relatório HTML: output/plots/comparison_report.html
 2025-10-05 08:49:07,218 - __main__ - INFO - Análise concluída com sucesso!
+2025-10-05 08:58:13,695 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 08:58:13,697 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-05 08:58:13,700 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 08:58:13,702 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 08:58:13,709 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-05 08:58:13,734 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-05 08:58:19,654 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 08:58:25,825 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 08:58:25,933 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-05 08:58:25,933 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 08:58:25,933 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 08:58:27,934 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 08:58:27,934 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 08:58:27,935 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 08:58:29,977 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 08:58:30,095 - src.comparison.simulator_comparator - INFO - Comparando simulação HTC bfs_cenario_1000_viagens_2 com events
+2025-10-05 08:59:41,089 - src.visualization.plotter - INFO - Gráfico de métricas básicas salvo em: output/plots/basic_metrics_comparison.png
+2025-10-05 08:59:41,707 - src.visualization.plotter - INFO - Gráfico de distribuição de velocidades salvo em: output/plots/speed_distribution.png
+2025-10-05 08:59:42,657 - src.visualization.plotter - INFO - Dashboard interativo salvo em: output/plots/interactive_dashboard.html
+2025-10-05 08:59:42,658 - src.visualization.plotter - INFO - Relatório HTML salvo em: output/plots/comparison_report.html
+2025-10-05 08:59:42,658 - __main__ - INFO - Comparação concluída
+2025-10-05 08:59:42,659 - __main__ - INFO - Resultados salvos em: output/comparison_bfs_cenario_1000_viagens_2_vs_events.json
+2025-10-05 08:59:42,659 - __main__ - INFO - Relatório HTML: output/plots/comparison_report.html
+2025-10-05 08:59:42,791 - __main__ - INFO - Análise concluída com sucesso!
+2025-10-05 09:10:15,938 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:10:15,939 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-05 09:10:15,941 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 09:10:15,943 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 09:10:15,947 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-05 09:10:15,964 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-05 09:10:19,254 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 09:10:22,492 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 09:10:22,566 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-05 09:10:22,566 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:10:22,567 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:10:23,825 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:10:23,825 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:10:23,825 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:10:25,147 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:10:25,240 - src.comparison.simulator_comparator - INFO - Comparando simulação HTC bfs_cenario_1000_viagens_2 com events
+2025-10-05 09:11:26,395 - src.visualization.plotter - INFO - Iniciando criação de análise completa com novos gráficos...
+2025-10-05 09:11:27,481 - src.visualization.plotter - INFO - Gráfico de eventos por tipo salvo em: output/plots/event_type_counts.png
+2025-10-05 09:11:28,392 - src.visualization.plotter - ERROR - Erro na criação da análise completa: The x variable is categorical, but one of ['numeric', 'datetime'] is required
+2025-10-05 09:11:28,392 - __main__ - ERROR - Erro durante a análise: The x variable is categorical, but one of ['numeric', 'datetime'] is required
+Traceback (most recent call last):
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 358, in main
+    analyzer.compare_simulations(args.htc_sim, args.ref_sim)
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 180, in compare_simulations
+    comprehensive_plots = self.visualizer.create_comprehensive_analysis(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dean/PhD/scripts/simulations_analysis/src/visualization/plotter.py", line 779, in create_comprehensive_analysis
+    plot_paths['speed_kde'] = self.plot_speed_density_kde(htc_events, ref_events)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dean/PhD/scripts/simulations_analysis/src/visualization/plotter.py", line 190, in plot_speed_density_kde
+    sns.kdeplot(data=ref_speeds, ax=ax, label='Interscsimulator', alpha=0.7, linewidth=2)
+  File "/home/dean/PhD/scripts/simulations_analysis/venv/lib/python3.12/site-packages/seaborn/distributions.py", line 1679, in kdeplot
+    p._attach(ax, allowed_types=["numeric", "datetime"], log_scale=log_scale)
+  File "/home/dean/PhD/scripts/simulations_analysis/venv/lib/python3.12/site-packages/seaborn/_base.py", line 1084, in _attach
+    raise TypeError(err)
+TypeError: The x variable is categorical, but one of ['numeric', 'datetime'] is required
+2025-10-05 09:18:47,407 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:18:47,408 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-05 09:18:47,410 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 09:18:47,411 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 09:18:47,415 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-05 09:18:47,432 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-05 09:18:50,794 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 09:18:54,110 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 09:18:54,180 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-05 09:18:54,180 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:18:54,181 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:18:55,431 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:18:55,431 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:18:55,431 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:18:56,759 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:18:56,840 - src.comparison.simulator_comparator - INFO - Comparando simulação HTC bfs_cenario_1000_viagens_2 com events
+2025-10-05 09:19:54,467 - src.visualization.plotter - INFO - Iniciando criação de análise completa com novos gráficos...
+2025-10-05 09:19:55,598 - src.visualization.plotter - INFO - Gráfico de eventos por tipo salvo em: output/plots/event_type_counts.png
+2025-10-05 09:19:57,155 - src.visualization.plotter - INFO - Gráfico KDE de velocidades salvo em: output/plots/speed_density_kde.png
+2025-10-05 09:19:58,195 - src.visualization.plotter - INFO - Gráfico de análise de links salvo em: output/plots/link_analysis.png
+2025-10-05 09:19:59,343 - src.visualization.plotter - INFO - Gráfico de top links salvo em: output/plots/top_20_links_usage.png
+2025-10-05 09:20:00,509 - src.visualization.plotter - INFO - Gráfico de veículos acumulados salvo em: output/plots/cumulative_vehicles.png
+2025-10-05 09:20:01,669 - src.visualization.plotter - INFO - Gráfico de eficiência de trajetos salvo em: output/plots/journey_completion_efficiency.png
+2025-10-05 09:20:01,694 - src.visualization.plotter - ERROR - Erro na criação da análise completa: 'SimulationVisualizer' object has no attribute 'create_basic_comparison_plots'
+2025-10-05 09:20:01,694 - __main__ - ERROR - Erro durante a análise: 'SimulationVisualizer' object has no attribute 'create_basic_comparison_plots'
+Traceback (most recent call last):
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 358, in main
+    analyzer.compare_simulations(args.htc_sim, args.ref_sim)
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 180, in compare_simulations
+    comprehensive_plots = self.visualizer.create_comprehensive_analysis(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dean/PhD/scripts/simulations_analysis/src/visualization/plotter.py", line 812, in create_comprehensive_analysis
+    basic_plots = self.create_basic_comparison_plots(htc_events, ref_events)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SimulationVisualizer' object has no attribute 'create_basic_comparison_plots'
+2025-10-05 09:20:31,370 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:20:31,371 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-05 09:20:31,373 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 09:20:31,374 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 09:20:31,378 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-05 09:20:31,396 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-05 09:20:34,818 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 09:20:38,306 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 09:20:38,384 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-05 09:20:38,385 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:20:38,385 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:20:40,263 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:20:40,264 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:20:40,264 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:20:41,755 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:20:41,846 - src.comparison.simulator_comparator - INFO - Comparando simulação HTC bfs_cenario_1000_viagens_2 com events
+2025-10-05 09:21:44,946 - src.visualization.plotter - INFO - Iniciando criação de análise completa com novos gráficos...
+2025-10-05 09:21:46,086 - src.visualization.plotter - INFO - Gráfico de eventos por tipo salvo em: output/plots/event_type_counts.png
+2025-10-05 09:21:47,677 - src.visualization.plotter - INFO - Gráfico KDE de velocidades salvo em: output/plots/speed_density_kde.png
+2025-10-05 09:21:48,715 - src.visualization.plotter - INFO - Gráfico de análise de links salvo em: output/plots/link_analysis.png
+2025-10-05 09:21:49,837 - src.visualization.plotter - INFO - Gráfico de top links salvo em: output/plots/top_20_links_usage.png
+2025-10-05 09:21:51,133 - src.visualization.plotter - INFO - Gráfico de veículos acumulados salvo em: output/plots/cumulative_vehicles.png
+2025-10-05 09:21:52,339 - src.visualization.plotter - INFO - Gráfico de eficiência de trajetos salvo em: output/plots/journey_completion_efficiency.png
+2025-10-05 09:21:52,364 - src.visualization.plotter - INFO - Análise completa criada com 6 gráficos
+2025-10-05 09:21:52,474 - src.visualization.plotter - INFO - Dashboard interativo salvo em: output/plots/interactive_dashboard.html
+2025-10-05 09:21:52,474 - src.visualization.plotter - INFO - Relatório HTML salvo em: output/plots/comparison_report.html
+2025-10-05 09:21:52,475 - __main__ - INFO - Comparação concluída
+2025-10-05 09:21:52,476 - __main__ - INFO - Resultados salvos em: output/comparison_bfs_cenario_1000_viagens_2_vs_events.json
+2025-10-05 09:21:52,476 - __main__ - INFO - Relatório HTML: output/plots/comparison_report.html
+2025-10-05 09:21:52,599 - __main__ - INFO - Análise concluída com sucesso!
+2025-10-05 09:25:41,853 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:25:41,854 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-05 09:25:41,856 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 09:25:41,857 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 09:25:41,862 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-05 09:25:41,877 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-05 09:25:45,289 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 09:25:48,839 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 09:25:48,910 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-05 09:25:48,910 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:25:48,910 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:25:50,219 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:25:50,219 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:25:50,219 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:25:51,540 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:25:51,634 - src.comparison.simulator_comparator - INFO - Comparando simulação HTC bfs_cenario_1000_viagens_2 com events
+2025-10-05 09:26:51,073 - src.visualization.plotter - INFO - Iniciando criação de análise completa com novos gráficos...
+2025-10-05 09:26:52,248 - src.visualization.plotter - INFO - Gráfico de eventos por tipo salvo em: output/plots/event_type_counts.png
+2025-10-05 09:26:53,882 - src.visualization.plotter - INFO - Gráfico KDE de velocidades salvo em: output/plots/speed_density_kde.png
+2025-10-05 09:26:54,912 - src.visualization.plotter - INFO - Gráfico de análise de links salvo em: output/plots/link_analysis.png
+2025-10-05 09:26:56,047 - src.visualization.plotter - INFO - Gráfico de top links salvo em: output/plots/top_20_links_usage.png
+2025-10-05 09:26:57,133 - src.visualization.plotter - INFO - Gráfico de veículos acumulados salvo em: output/plots/cumulative_vehicles.png
+2025-10-05 09:26:58,299 - src.visualization.plotter - INFO - Gráfico de eficiência de trajetos salvo em: output/plots/journey_completion_efficiency.png
+2025-10-05 09:26:58,325 - src.visualization.plotter - ERROR - Erro na criação da análise completa: 'SimulationVisualizer' object has no attribute 'create_basic_comparison_plots'
+2025-10-05 09:26:58,325 - __main__ - ERROR - Erro durante a análise: 'SimulationVisualizer' object has no attribute 'create_basic_comparison_plots'
+Traceback (most recent call last):
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 358, in main
+    analyzer.compare_simulations(args.htc_sim, args.ref_sim)
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 180, in compare_simulations
+    comprehensive_plots = self.visualizer.create_comprehensive_analysis(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dean/PhD/scripts/simulations_analysis/src/visualization/plotter.py", line 799, in create_comprehensive_analysis
+    basic_plots = self.create_basic_comparison_plots(htc_events, ref_events)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SimulationVisualizer' object has no attribute 'create_basic_comparison_plots'
+2025-10-05 09:28:12,918 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:28:12,919 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-05 09:28:12,921 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 09:28:12,922 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 09:28:12,927 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-05 09:28:12,939 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-05 09:28:16,162 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 09:28:19,394 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 09:28:19,482 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-05 09:28:19,482 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:28:19,483 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:28:20,759 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:28:20,759 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:28:20,759 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:28:22,101 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:28:22,184 - src.comparison.simulator_comparator - INFO - Comparando simulação HTC bfs_cenario_1000_viagens_2 com events
+2025-10-05 09:29:21,817 - src.visualization.plotter - INFO - Iniciando criação de análise completa com novos gráficos...
+2025-10-05 09:29:22,939 - src.visualization.plotter - INFO - Gráfico de eventos por tipo salvo em: output/plots/event_type_counts.png
+2025-10-05 09:29:24,592 - src.visualization.plotter - INFO - Gráfico KDE de velocidades salvo em: output/plots/speed_density_kde.png
+2025-10-05 09:29:25,653 - src.visualization.plotter - INFO - Gráfico de análise de links salvo em: output/plots/link_analysis.png
+2025-10-05 09:29:26,757 - src.visualization.plotter - INFO - Gráfico de top links salvo em: output/plots/top_20_links_usage.png
+2025-10-05 09:29:27,826 - src.visualization.plotter - INFO - Gráfico de veículos acumulados salvo em: output/plots/cumulative_vehicles.png
+2025-10-05 09:29:28,984 - src.visualization.plotter - INFO - Gráfico de eficiência de trajetos salvo em: output/plots/journey_completion_efficiency.png
+2025-10-05 09:29:29,008 - src.visualization.plotter - INFO - Análise completa criada com 6 gráficos
+2025-10-05 09:29:29,123 - src.visualization.plotter - INFO - Dashboard interativo salvo em: output/plots/interactive_dashboard.html
+2025-10-05 09:29:29,124 - __main__ - ERROR - Erro durante a análise: 'str' object has no attribute 'repl'
+Traceback (most recent call last):
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 358, in main
+    analyzer.compare_simulations(args.htc_sim, args.ref_sim)
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 192, in compare_simulations
+    report_path = self.visualizer.generate_summary_report(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dean/PhD/scripts/simulations_analysis/src/visualization/plotter.py", line 1349, in generate_summary_report
+    <img src="{plot_path.repl}" alt="{plot_name}">
+               ^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'repl'
+2025-10-05 09:30:46,237 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:30:46,238 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-05 09:30:46,240 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 09:30:46,241 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 09:30:46,246 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-05 09:30:46,264 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-05 09:30:49,432 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 09:30:52,757 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 09:30:52,830 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-05 09:30:52,830 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:30:52,830 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:30:54,055 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:30:54,055 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:30:54,064 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:30:55,365 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:30:55,452 - src.comparison.simulator_comparator - INFO - Comparando simulação HTC bfs_cenario_1000_viagens_2 com events
+2025-10-05 09:31:54,806 - src.visualization.plotter - INFO - Iniciando criação de análise completa com novos gráficos...
+2025-10-05 09:31:55,915 - src.visualization.plotter - INFO - Gráfico de eventos por tipo salvo em: output/plots/event_type_counts.png
+2025-10-05 09:31:57,559 - src.visualization.plotter - INFO - Gráfico KDE de velocidades salvo em: output/plots/speed_density_kde.png
+2025-10-05 09:31:58,628 - src.visualization.plotter - INFO - Gráfico de análise de links salvo em: output/plots/link_analysis.png
+2025-10-05 09:31:59,743 - src.visualization.plotter - INFO - Gráfico de top links salvo em: output/plots/top_20_links_usage.png
+2025-10-05 09:32:00,841 - src.visualization.plotter - INFO - Gráfico de veículos acumulados salvo em: output/plots/cumulative_vehicles.png
+2025-10-05 09:32:02,043 - src.visualization.plotter - INFO - Gráfico de eficiência de trajetos salvo em: output/plots/journey_completion_efficiency.png
+2025-10-05 09:32:02,067 - src.visualization.plotter - INFO - Análise completa criada com 6 gráficos
+2025-10-05 09:32:02,360 - src.visualization.plotter - INFO - Dashboard interativo salvo em: output/plots/interactive_dashboard.html
+2025-10-05 09:32:02,361 - src.visualization.plotter - INFO - Relatório HTML salvo em: output/plots/comparison_report.html
+2025-10-05 09:32:02,362 - __main__ - INFO - Comparação concluída
+2025-10-05 09:32:02,362 - __main__ - INFO - Resultados salvos em: output/comparison_bfs_cenario_1000_viagens_2_vs_events.json
+2025-10-05 09:32:02,362 - __main__ - INFO - Relatório HTML: output/plots/comparison_report.html
+2025-10-05 09:32:02,493 - __main__ - INFO - Análise concluída com sucesso!

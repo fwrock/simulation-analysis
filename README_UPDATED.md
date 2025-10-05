@@ -124,7 +124,7 @@ O sistema resolve o problema de visualização "zig-zag" dos dados HTC através 
 ### Normalização e Mapeamento
 - **IDs de Veículos**: Normalização para permitir comparação direta
 - **IDs de Links**: Mapeamento entre sistemas de numeração
-- **Timestamps**: Alinhamento temporal baseado em eventos equivalentes
+- **Granularidade Temporal**: Adaptação às diferentes escalas de tick entre simuladores
 
 ## 📁 Estrutura de Saída
 
@@ -152,7 +152,7 @@ python debug_cassandra.py
 ```
 
 ### Dados Temporais "Zig-Zag"
-✅ **Problema Resolvido**: O sistema agora usa janelas temporais adaptativas específicas para cada simulador.
+✅ **Problema Resolvido**: O sistema agora usa janelas temporais adaptativas baseadas na granularidade específica de cada simulador (ambos usam ticks, mas com escalas diferentes).
 
 ### Performance em Datasets Grandes
 - Use `--limit` para limitar número de eventos

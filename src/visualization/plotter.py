@@ -99,13 +99,433 @@ class SimulationVisualizer:
             ax.set_title(metric_name)
             ax.set_ylabel('Value')
             
-            # Adicionar valores nas barras
-            for bar, value in zip(bars, values):
-                height = bar.get_height()
+    def plot_event_type_counts(self, 
+                              htc_events: List[Any], 
+                              ref_events: List[Any],
+                              save_path: Optional[str] = None) -> str:
+        """Gráfico de barras com quantidade de eventos por tipo"""
+        
+        # Converter eventos para DataFrame
+        htc_df = self._events_to_dataframe(htc_events, 'HTC')
+        ref_df = self._events_to_dataframe(ref_events, 'Interscsimulator')
+        
+        # Contar eventos por tipo
+        htc_counts = htc_df['event_type'].value_counts()
+        ref_counts = ref_df['event_type'].value_counts()
+        
+        # Combinar em DataFrame
+        all_event_types = set(htc_counts.index) | set(ref_counts.index)
+        comparison_data = []
+        
+        for event_type in all_event_types:
+            comparison_data.append({
+                'Event Type': event_type,
+                'HTC': htc_counts.get(event_type, 0),
+                'Interscsimulator': ref_counts.get(event_type, 0)
+            })
+        
+        df = pd.DataFrame(comparison_data)
+        
+        # Criar gráfico
+        fig, ax = plt.subplots(figsize=(12, 8))
+        
+        x = np.arange(len(df))
+        width = 0.35
+        
+        bars1 = ax.bar(x - width/2, df['HTC'], width, label='HTC', color='#1f77b4', alpha=0.8)
+        bars2 = ax.bar(x + width/2, df['Interscsimulator'], width, label='Interscsimulator', color='#ff7f0e', alpha=0.8)
+        
+        ax.set_xlabel('Tipo de Evento')
+        ax.set_ylabel('Quantidade')
+        ax.set_title('Quantidade de Eventos por Tipo')
+        ax.set_xticks(x)
+        ax.set_xticklabels(df['Event Type'], rotation=45, ha='right')
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+        
+        # Adicionar valores nas barras
+        for bar in bars1:
+            height = bar.get_height()
+            if height > 0:
                 ax.text(bar.get_x() + bar.get_width()/2., height,
-                       f'{value:.2f}', ha='center', va='bottom')
+                       f'{int(height)}', ha='center', va='bottom', fontsize=8)
+        
+        for bar in bars2:
+            height = bar.get_height()
+            if height > 0:
+                ax.text(bar.get_x() + bar.get_width()/2., height,
+                       f'{int(height)}', ha='center', va='bottom', fontsize=8)
         
         plt.tight_layout()
+        
+        if save_path is None:
+            save_path = self.output_dir / 'event_type_counts.png'
+        
+        plt.savefig(save_path, dpi=self.dpi, bbox_inches='tight')
+        plt.close()
+        
+        self.logger.info(f"Gráfico de eventos por tipo salvo em: {save_path}")
+        return str(save_path)
+    
+    def plot_speed_density_kde(self, 
+                              htc_events: List[Any], 
+                              ref_events: List[Any],
+                              save_path: Optional[str] = None) -> str:
+        """Gráfico KDE de densidade de velocidade"""
+        
+        # Extrair velocidades dos eventos enter_link
+        htc_df = self._events_to_dataframe(htc_events, 'HTC')
+        ref_df = self._events_to_dataframe(ref_events, 'Interscsimulator')
+        
+        # Extrair velocidades e converter para numérico
+        htc_speeds = pd.to_numeric(htc_df[htc_df['event_type'] == 'enter_link']['calculated_speed'], errors='coerce').dropna()
+        ref_speeds = pd.to_numeric(ref_df[ref_df['event_type'] == 'enter_link']['calculated_speed'], errors='coerce').dropna()
+        
+        # Filtrar valores válidos (positivos)
+        htc_speeds = htc_speeds[htc_speeds > 0]
+        ref_speeds = ref_speeds[ref_speeds > 0]
+        
+        # Criar gráfico
+        fig, ax = plt.subplots(figsize=(12, 8))
+        
+        if len(htc_speeds) > 0:
+            sns.kdeplot(data=htc_speeds, ax=ax, label='HTC', alpha=0.7, linewidth=2)
+        
+        if len(ref_speeds) > 0:
+            sns.kdeplot(data=ref_speeds, ax=ax, label='Interscsimulator', alpha=0.7, linewidth=2)
+        
+        ax.set_xlabel('Velocidade (m/s)')
+        ax.set_ylabel('Densidade')
+        ax.set_title('Distribuição de Densidade de Velocidades (KDE)')
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+        
+        # Adicionar estatísticas
+        if len(htc_speeds) > 0 and len(ref_speeds) > 0:
+            htc_mean = htc_speeds.mean()
+            ref_mean = ref_speeds.mean()
+            
+            ax.axvline(htc_mean, color='#1f77b4', linestyle='--', alpha=0.8, 
+                      label=f'Média HTC: {htc_mean:.2f} m/s')
+            ax.axvline(ref_mean, color='#ff7f0e', linestyle='--', alpha=0.8, 
+                      label=f'Média Interscsimulator: {ref_mean:.2f} m/s')
+            ax.legend()
+        
+        plt.tight_layout()
+        
+        if save_path is None:
+            save_path = self.output_dir / 'speed_density_kde.png'
+        
+        plt.savefig(save_path, dpi=self.dpi, bbox_inches='tight')
+        plt.close()
+        
+        self.logger.info(f"Gráfico KDE de velocidades salvo em: {save_path}")
+        return str(save_path)
+    
+    def plot_link_analysis(self, 
+                          htc_events: List[Any], 
+                          ref_events: List[Any],
+                          save_path: Optional[str] = None) -> str:
+        """Gráfico de análise de links (contagem e links comuns)"""
+        
+        # Extrair links únicos
+        htc_df = self._events_to_dataframe(htc_events, 'HTC')
+        ref_df = self._events_to_dataframe(ref_events, 'Interscsimulator')
+        
+        htc_links = set(htc_df['normalized_link_id'].dropna().unique())
+        ref_links = set(ref_df['normalized_link_id'].dropna().unique())
+        
+        common_links = htc_links & ref_links
+        htc_only = htc_links - ref_links
+        ref_only = ref_links - htc_links
+        
+        # Dados para o gráfico
+        categories = ['HTC Únicos', 'Interscsimulator Únicos', 'Links Comuns', 'Total HTC', 'Total Interscsimulator']
+        values = [len(htc_only), len(ref_only), len(common_links), len(htc_links), len(ref_links)]
+        colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd']
+        
+        # Criar gráfico
+        fig, ax = plt.subplots(figsize=(12, 8))
+        
+        bars = ax.bar(categories, values, color=colors, alpha=0.8)
+        
+        ax.set_ylabel('Quantidade de Links')
+        ax.set_title('Análise de Links entre Simuladores')
+        ax.grid(True, alpha=0.3)
+        
+        # Adicionar valores nas barras
+        for bar, value in zip(bars, values):
+            height = bar.get_height()
+            ax.text(bar.get_x() + bar.get_width()/2., height,
+                   f'{value}', ha='center', va='bottom', fontweight='bold')
+        
+        # Adicionar percentuais para links comuns
+        if len(htc_links) > 0 and len(ref_links) > 0:
+            htc_common_pct = (len(common_links) / len(htc_links)) * 100
+            ref_common_pct = (len(common_links) / len(ref_links)) * 100
+            
+            ax.text(0.02, 0.98, f'Links comuns: {htc_common_pct:.1f}% do HTC, {ref_common_pct:.1f}% do Interscsimulator',
+                   transform=ax.transAxes, fontsize=10, verticalalignment='top',
+                   bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+        
+        plt.xticks(rotation=45, ha='right')
+        plt.tight_layout()
+        
+        if save_path is None:
+            save_path = self.output_dir / 'link_analysis.png'
+        
+        plt.savefig(save_path, dpi=self.dpi, bbox_inches='tight')
+        plt.close()
+        
+        self.logger.info(f"Gráfico de análise de links salvo em: {save_path}")
+        return str(save_path)
+    
+    def plot_top_links_usage(self, 
+                            htc_events: List[Any], 
+                            ref_events: List[Any],
+                            top_n: int = 20,
+                            save_path: Optional[str] = None) -> str:
+        """Gráfico dos top N links mais utilizados"""
+        
+        # Extrair passagens por link
+        htc_df = self._events_to_dataframe(htc_events, 'HTC')
+        ref_df = self._events_to_dataframe(ref_events, 'Interscsimulator')
+        
+        # Contar passagens (eventos enter_link)
+        htc_enter = htc_df[htc_df['event_type'] == 'enter_link']
+        ref_enter = ref_df[ref_df['event_type'] == 'enter_link']
+        
+        htc_link_counts = htc_enter['normalized_link_id'].value_counts().head(top_n)
+        ref_link_counts = ref_enter['normalized_link_id'].value_counts().head(top_n)
+        
+        # Combinar dados dos top links
+        all_top_links = set(htc_link_counts.index) | set(ref_link_counts.index)
+        comparison_data = []
+        
+        for link_id in all_top_links:
+            comparison_data.append({
+                'Link ID': str(link_id)[:10] + '...' if len(str(link_id)) > 10 else str(link_id),
+                'HTC': htc_link_counts.get(link_id, 0),
+                'Interscsimulator': ref_link_counts.get(link_id, 0)
+            })
+        
+        # Ordenar por total de passagens
+        df = pd.DataFrame(comparison_data)
+        df['Total'] = df['HTC'] + df['Interscsimulator']
+        df = df.sort_values('Total', ascending=True).tail(top_n)
+        
+        # Criar gráfico horizontal
+        fig, ax = plt.subplots(figsize=(12, max(8, len(df) * 0.4)))
+        
+        y_pos = np.arange(len(df))
+        
+        bars1 = ax.barh(y_pos - 0.2, df['HTC'], 0.4, label='HTC', color='#1f77b4', alpha=0.8)
+        bars2 = ax.barh(y_pos + 0.2, df['Interscsimulator'], 0.4, label='Interscsimulator', color='#ff7f0e', alpha=0.8)
+        
+        ax.set_yticks(y_pos)
+        ax.set_yticklabels(df['Link ID'])
+        ax.set_xlabel('Número de Passagens')
+        ax.set_title(f'Top {len(df)} Links Mais Utilizados')
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+        
+        plt.tight_layout()
+        
+        if save_path is None:
+            save_path = self.output_dir / f'top_{top_n}_links_usage.png'
+        
+        plt.savefig(save_path, dpi=self.dpi, bbox_inches='tight')
+        plt.close()
+        
+        self.logger.info(f"Gráfico de top links salvo em: {save_path}")
+        return str(save_path)
+    
+    def plot_cumulative_vehicles(self, 
+                               htc_events: List[Any], 
+                               ref_events: List[Any],
+                               save_path: Optional[str] = None) -> str:
+        """Gráfico de linha com veículos acumulados ao longo do tempo"""
+        
+        # Extrair eventos de entrada de veículos
+        htc_df = self._events_to_dataframe(htc_events, 'HTC')
+        ref_df = self._events_to_dataframe(ref_events, 'Interscsimulator')
+        
+        # Filtrar apenas eventos de entrada (primeiro evento de cada veículo)
+        htc_first_events = htc_df.groupby('car_id')['timestamp'].min().reset_index()
+        ref_first_events = ref_df.groupby('car_id')['timestamp'].min().reset_index()
+        
+        # Criar série temporal acumulativa
+        htc_first_events = htc_first_events.sort_values('timestamp')
+        ref_first_events = ref_first_events.sort_values('timestamp')
+        
+        htc_first_events['cumulative'] = range(1, len(htc_first_events) + 1)
+        ref_first_events['cumulative'] = range(1, len(ref_first_events) + 1)
+        
+        # Normalizar timestamps para começar do zero
+        if len(htc_first_events) > 0:
+            htc_first_events['normalized_time'] = htc_first_events['timestamp'] - htc_first_events['timestamp'].min()
+        
+        if len(ref_first_events) > 0:
+            ref_first_events['normalized_time'] = ref_first_events['timestamp'] - ref_first_events['timestamp'].min()
+        
+        # Criar gráfico
+        fig, ax = plt.subplots(figsize=(12, 8))
+        
+        if len(htc_first_events) > 0:
+            ax.plot(htc_first_events['normalized_time'], htc_first_events['cumulative'], 
+                   label='HTC', color='#1f77b4', linewidth=2, alpha=0.8)
+        
+        if len(ref_first_events) > 0:
+            ax.plot(ref_first_events['normalized_time'], ref_first_events['cumulative'], 
+                   label='Interscsimulator', color='#ff7f0e', linewidth=2, alpha=0.8)
+        
+        ax.set_xlabel('Tempo (ticks)')
+        ax.set_ylabel('Veículos Acumulados')
+        ax.set_title('Veículos Acumulados ao Longo da Simulação')
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+        
+        plt.tight_layout()
+        
+        if save_path is None:
+            save_path = self.output_dir / 'cumulative_vehicles.png'
+        
+        plt.savefig(save_path, dpi=self.dpi, bbox_inches='tight')
+        plt.close()
+        
+        self.logger.info(f"Gráfico de veículos acumulados salvo em: {save_path}")
+        return str(save_path)
+    
+    def plot_journey_completion_efficiency(self, 
+                                         htc_events: List[Any], 
+                                         ref_events: List[Any],
+                                         save_path: Optional[str] = None) -> str:
+        """Gráfico de eficiência de conclusão de trajetos"""
+        
+        htc_df = self._events_to_dataframe(htc_events, 'HTC')
+        ref_df = self._events_to_dataframe(ref_events, 'Interscsimulator')
+        
+        # Análise de completude de jornadas
+        def analyze_journey_completion(df, simulator_name):
+            # Veículos que iniciaram (qualquer evento)
+            vehicles_started = df['car_id'].nunique()
+            
+            # Veículos que completaram (evento journey_completed)
+            completed_vehicles = df[df['event_type'] == 'journey_completed']['car_id'].nunique()
+            
+            # Se não há eventos journey_completed, usar veículos que saíram de links
+            if completed_vehicles == 0:
+                completed_vehicles = df[df['event_type'] == 'leave_link']['car_id'].nunique()
+            
+            # Veículos ainda ativos (não completaram)
+            active_vehicles = vehicles_started - completed_vehicles
+            
+            # Taxa de completude
+            completion_rate = (completed_vehicles / vehicles_started * 100) if vehicles_started > 0 else 0
+            
+            return {
+                'simulator': simulator_name,
+                'vehicles_started': vehicles_started,
+                'vehicles_completed': completed_vehicles,
+                'vehicles_active': active_vehicles,
+                'completion_rate': completion_rate
+            }
+        
+        htc_analysis = analyze_journey_completion(htc_df, 'HTC')
+        ref_analysis = analyze_journey_completion(ref_df, 'Interscsimulator')
+        
+        # Criar gráfico de barras agrupadas
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 8))
+        
+        # Gráfico 1: Contagem absoluta
+        categories = ['Iniciados', 'Completados', 'Ativos']
+        htc_values = [htc_analysis['vehicles_started'], htc_analysis['vehicles_completed'], htc_analysis['vehicles_active']]
+        ref_values = [ref_analysis['vehicles_started'], ref_analysis['vehicles_completed'], ref_analysis['vehicles_active']]
+        
+        x = np.arange(len(categories))
+        width = 0.35
+        
+        bars1 = ax1.bar(x - width/2, htc_values, width, label='HTC', color='#1f77b4', alpha=0.8)
+        bars2 = ax1.bar(x + width/2, ref_values, width, label='Interscsimulator', color='#ff7f0e', alpha=0.8)
+        
+        ax1.set_xlabel('Status do Veículo')
+        ax1.set_ylabel('Quantidade')
+        ax1.set_title('Status dos Veículos')
+        ax1.set_xticks(x)
+        ax1.set_xticklabels(categories)
+        ax1.legend()
+        ax1.grid(True, alpha=0.3)
+        
+        # Adicionar valores nas barras
+        for bars in [bars1, bars2]:
+            for bar in bars:
+                height = bar.get_height()
+                ax1.text(bar.get_x() + bar.get_width()/2., height,
+                        f'{int(height)}', ha='center', va='bottom', fontsize=10)
+        
+        # Gráfico 2: Taxa de completude
+        simulators = ['HTC', 'Interscsimulator']
+        completion_rates = [htc_analysis['completion_rate'], ref_analysis['completion_rate']]
+        
+        bars = ax2.bar(simulators, completion_rates, color=['#1f77b4', '#ff7f0e'], alpha=0.8)
+        
+        ax2.set_ylabel('Taxa de Completude (%)')
+        ax2.set_title('Eficiência de Conclusão de Trajetos')
+        ax2.set_ylim(0, 100)
+        ax2.grid(True, alpha=0.3)
+        
+        # Adicionar valores nas barras
+        for bar, rate in zip(bars, completion_rates):
+            height = bar.get_height()
+            ax2.text(bar.get_x() + bar.get_width()/2., height,
+                    f'{rate:.1f}%', ha='center', va='bottom', fontsize=12, fontweight='bold')
+        
+        plt.tight_layout()
+        
+        if save_path is None:
+            save_path = self.output_dir / 'journey_completion_efficiency.png'
+        
+        plt.savefig(save_path, dpi=self.dpi, bbox_inches='tight')
+        plt.close()
+        
+        self.logger.info(f"Gráfico de eficiência de trajetos salvo em: {save_path}")
+        return str(save_path)
+    
+    def _events_to_dataframe(self, events: List[Any], simulator_type: str) -> pd.DataFrame:
+        """Converte lista de eventos para DataFrame"""
+        
+        if not events:
+            return pd.DataFrame()
+        
+        # Converter eventos para lista de dicionários
+        rows = []
+        for event in events:
+            row = {}
+            
+            # Atributos básicos
+            row['car_id'] = getattr(event, 'car_id', None)
+            row['timestamp'] = getattr(event, 'timestamp', None)
+            row['event_type'] = getattr(event, 'event_type', None)
+            
+            # Dados específicos por simulador
+            if hasattr(event, 'data') and isinstance(event.data, dict):
+                # HTC
+                row.update(event.data)
+                row['normalized_link_id'] = str(event.data.get('link_id', '')).replace('htcaid_link_', '')
+            elif hasattr(event, 'attributes') and isinstance(event.attributes, dict):
+                # Interscsimulator
+                row.update(event.attributes)
+                row['normalized_link_id'] = str(event.attributes.get('link_id', ''))
+            
+            rows.append(row)
+        
+        df = pd.DataFrame(rows)
+        
+        # Normalizar car_id se necessário
+        if 'car_id' in df.columns:
+            df['car_id'] = df['car_id'].astype(str).str.replace('htcaid_car_', '')
+        
+        return df
         
         if save_path is None:
             save_path = self.output_dir / 'basic_metrics_comparison.png'
@@ -346,6 +766,43 @@ class SimulationVisualizer:
         self.logger.info(f"Gráfico de jornada do veículo salvo em: {save_path}")
         return str(save_path)
     
+    def create_comprehensive_analysis(self, 
+                                     htc_events: List[Any], 
+                                     ref_events: List[Any],
+                                     top_n_links: int = 20) -> Dict[str, str]:
+        """Cria análise completa com todos os gráficos"""
+        
+        self.logger.info("Iniciando criação de análise completa com novos gráficos...")
+        
+        plot_paths = {}
+        
+        try:
+            # 1. Gráfico de quantidade de eventos por tipo
+            plot_paths['event_counts'] = self.plot_event_type_counts(htc_events, ref_events)
+            
+            # 2. Gráfico KDE de densidade de velocidade
+            plot_paths['speed_kde'] = self.plot_speed_density_kde(htc_events, ref_events)
+            
+            # 3. Análise de links
+            plot_paths['link_analysis'] = self.plot_link_analysis(htc_events, ref_events)
+            
+            # 4. Top N links mais utilizados
+            plot_paths['top_links'] = self.plot_top_links_usage(htc_events, ref_events, top_n_links)
+            
+            # 5. Veículos acumulados
+            plot_paths['cumulative_vehicles'] = self.plot_cumulative_vehicles(htc_events, ref_events)
+            
+            # 6. Eficiência de conclusão de trajetos
+            plot_paths['journey_efficiency'] = self.plot_journey_completion_efficiency(htc_events, ref_events)
+            
+            self.logger.info(f"Análise completa criada com {len(plot_paths)} gráficos")
+            
+        except Exception as e:
+            self.logger.error(f"Erro na criação da análise completa: {str(e)}")
+            raise
+        
+        return plot_paths
+
     def create_interactive_dashboard(self, 
                                    comparison_result: ComparisonResult,
                                    htc_temporal: pd.DataFrame,

@@ -37,7 +37,7 @@
                 <h1>Relatório de Comparação de Simulações</h1>
                 <p><strong>Simulação HTC:</strong> bfs_cenario_1000_viagens_2</p>
                 <p><strong>Simulação Interscsimulator:</strong> events</p>
-                <p><strong>Data de Geração:</strong> 2025-10-05 08:49:07</p>
+                <p><strong>Data de Geração:</strong> 2025-10-05 09:32:02</p>
             </div>
             
             <div class="section">
@@ -101,9 +101,9 @@
                     <div class="methodology">
         
             <strong>Métricas Temporais:</strong><br>
-            Calculadas usando janelas de tempo adaptativas:<br>
-            • <em>HTC:</em> Janelas de max(1, duração/100) unidades (otimizado para valores discretos)<br>
-            • <em>Interscsimulator:</em> Janelas de max(30, duração/50) segundos (otimizado para timestamps contínuos)<br>
+            Calculadas usando janelas de tempo adaptativas baseadas na granularidade dos dados:<br>
+            • <em>HTC:</em> Janelas de max(1, duração/100) ticks (otimizado para granularidade fina)<br>
+            • <em>Interscsimulator:</em> Janelas de max(30, duração/50) ticks (otimizado para granularidade maior)<br>
             Para cada janela calcula-se: velocidade média, densidade média, número de veículos únicos.
             
                     </div>
@@ -181,12 +181,12 @@
                 <h2>Considerações Metodológicas</h2>
                 <div class="warning">
                     <h3>⚠️ Adaptações Específicas para Simuladores</h3>
-                    <p><strong>Processamento Temporal Adaptativo:</strong> O sistema detecta automaticamente o tipo de simulador e ajusta as janelas temporais:</p>
+                    <p><strong>Processamento Temporal Adaptativo:</strong> O sistema detecta automaticamente o tipo de simulador e ajusta as janelas temporais baseado na granularidade dos dados:</p>
                     <ul>
-                        <li><strong>HTC:</strong> Usa valores discretos de 'tick' com janelas pequenas otimizadas para dados pontuais</li>
-                        <li><strong>Interscsimulator:</strong> Usa timestamps contínuos com janelas maiores para suavização temporal</li>
+                        <li><strong>HTC:</strong> Usa janelas pequenas (granularidade fina) otimizadas para alta resolução temporal</li>
+                        <li><strong>Interscsimulator:</strong> Usa janelas maiores (granularidade maior) para suavização temporal</li>
                     </ul>
-                    <p>Esta adaptação resolve problemas de visualização onde dados HTC apareciam como "zig-zag" devido ao uso de janelas temporais inadequadas para sua natureza discreta.</p>
+                    <p>Esta adaptação resolve problemas de visualização onde dados HTC apareciam como "zig-zag" devido ao uso de janelas temporais inadequadas para sua granularidade específica. Ambos simuladores usam ticks como unidade de tempo, mas com escalas diferentes.</p>
                 </div>
                 
                 <div class="warning">
@@ -204,18 +204,38 @@
                 <h2>Gráficos de Análise</h2>
         
                 <div class="plot">
-                    <h3>Basic Metrics Comparison</h3>
-                    <img src="output/plots/basic_metrics_comparison.png" alt="Basic Metrics Comparison">
+                    <h3>Event Type Counts</h3>
+                    <img src="event_type_counts.png" alt="Event Type Counts">
                 </div>
                 
                 <div class="plot">
-                    <h3>Speed Distribution</h3>
-                    <img src="output/plots/speed_distribution.png" alt="Speed Distribution">
+                    <h3>Speed Density Kde</h3>
+                    <img src="speed_density_kde.png" alt="Speed Density Kde">
+                </div>
+                
+                <div class="plot">
+                    <h3>Link Analysis</h3>
+                    <img src="link_analysis.png" alt="Link Analysis">
+                </div>
+                
+                <div class="plot">
+                    <h3>Top 20 Links Usage</h3>
+                    <img src="top_20_links_usage.png" alt="Top 20 Links Usage">
+                </div>
+                
+                <div class="plot">
+                    <h3>Cumulative Vehicles</h3>
+                    <img src="cumulative_vehicles.png" alt="Cumulative Vehicles">
+                </div>
+                
+                <div class="plot">
+                    <h3>Journey Completion Efficiency</h3>
+                    <img src="journey_completion_efficiency.png" alt="Journey Completion Efficiency">
                 </div>
                 
                 <div class="plot">
                     <h3>Interactive Dashboard</h3>
-                    <img src="output/plots/interactive_dashboard.html" alt="Interactive Dashboard">
+                    <img src="interactive_dashboard.html" alt="Interactive Dashboard">
                 </div>
                 
             </div>
