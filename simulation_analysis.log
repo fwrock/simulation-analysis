@@ -1,0 +1,300 @@
+2025-10-04 16:16:09,021 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:16:09,023 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-04 16:16:09,024 - cassandra.cluster - WARNING - [control connection] Error connecting to 127.0.0.1:9042:
+Traceback (most recent call last):
+  File "cassandra/cluster.py", line 3577, in cassandra.cluster.ControlConnection._reconnect_internal
+  File "cassandra/cluster.py", line 3599, in cassandra.cluster.ControlConnection._try_connect
+  File "cassandra/cluster.py", line 1670, in cassandra.cluster.Cluster.connection_factory
+  File "cassandra/connection.py", line 846, in cassandra.connection.Connection.factory
+  File "/home/dean/PhD/scripts/simulations_analysis/venv/lib/python3.12/site-packages/cassandra/io/libevreactor.py", line 267, in __init__
+    self._connect_socket()
+  File "cassandra/connection.py", line 951, in cassandra.connection.Connection._connect_socket
+ConnectionRefusedError: [Errno 111] Tried connecting to [('127.0.0.1', 9042)]. Last error: Connection refused
+2025-10-04 16:16:09,025 - cassandra.cluster - ERROR - Control connection failed to connect, shutting down Cluster:
+Traceback (most recent call last):
+  File "cassandra/cluster.py", line 1740, in cassandra.cluster.Cluster.connect
+  File "cassandra/cluster.py", line 3543, in cassandra.cluster.ControlConnection.connect
+  File "cassandra/cluster.py", line 3588, in cassandra.cluster.ControlConnection._reconnect_internal
+cassandra.cluster.NoHostAvailable: ('Unable to connect to any servers', {'127.0.0.1:9042': ConnectionRefusedError(111, "Tried connecting to [('127.0.0.1', 9042)]. Last error: Connection refused")})
+2025-10-04 16:16:09,026 - src.data_extraction.htc_extractor - ERROR - Erro ao conectar ao Cassandra: ('Unable to connect to any servers', {'127.0.0.1:9042': ConnectionRefusedError(111, "Tried connecting to [('127.0.0.1', 9042)]. Last error: Connection refused")})
+2025-10-04 16:16:09,026 - __main__ - ERROR - Erro durante a análise: Não foi possível conectar ao Cassandra
+Traceback (most recent call last):
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 368, in main
+    analyzer.compare_simulations(args.htc_sim, args.ref_sim)
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 150, in compare_simulations
+    raise ConnectionError("Não foi possível conectar ao Cassandra")
+ConnectionError: Não foi possível conectar ao Cassandra
+2025-10-04 16:20:09,214 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:20:09,217 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-04 16:20:09,225 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-04 16:20:09,230 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-04 16:20:09,251 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-04 16:20:09,354 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-04 16:20:09,355 - src.data_extraction.htc_extractor - ERROR - Erro ao extrair eventos da simulação bfs_cenario_1000_viagens_2: not all arguments converted during string formatting
+2025-10-04 16:20:09,355 - src.data_extraction.htc_extractor - ERROR - Erro ao extrair eventos da simulação bfs_cenario_1000_viagens_2: not all arguments converted during string formatting
+2025-10-04 16:20:09,356 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-04 16:20:09,357 - src.data_extraction.interscsimulator_extractor - ERROR - Erro de parsing XML em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:20:12,020 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:20:12,020 - src.data_extraction.interscsimulator_extractor - ERROR - Erro de parsing XML em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:20:14,330 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:20:14,489 - __main__ - ERROR - Erro durante a análise: Uma ou ambas simulações não possuem eventos
+Traceback (most recent call last):
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 368, in main
+    analyzer.compare_simulations(args.htc_sim, args.ref_sim)
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 162, in compare_simulations
+    raise ValueError("Uma ou ambas simulações não possuem eventos")
+ValueError: Uma ou ambas simulações não possuem eventos
+2025-10-04 16:22:20,032 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:22:20,034 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-04 16:22:20,037 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-04 16:22:20,039 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-04 16:22:20,051 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-04 16:22:20,124 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-04 16:22:20,124 - src.data_extraction.htc_extractor - ERROR - Erro ao extrair eventos da simulação bfs_cenario_1000_viagens_2: not all arguments converted during string formatting
+2025-10-04 16:22:20,124 - src.data_extraction.htc_extractor - ERROR - Erro ao extrair eventos da simulação bfs_cenario_1000_viagens_2: not all arguments converted during string formatting
+2025-10-04 16:22:20,126 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-04 16:22:20,127 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:22:20,128 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:22:22,922 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:22:22,923 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:22:22,923 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:22:25,328 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:22:25,490 - __main__ - ERROR - Erro durante a análise: Uma ou ambas simulações não possuem eventos
+Traceback (most recent call last):
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 368, in main
+    analyzer.compare_simulations(args.htc_sim, args.ref_sim)
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 162, in compare_simulations
+    raise ValueError("Uma ou ambas simulações não possuem eventos")
+ValueError: Uma ou ambas simulações não possuem eventos
+2025-10-04 16:23:17,547 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:23:17,549 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-04 16:23:17,550 - cassandra.cluster - DEBUG - Connecting to cluster, contact points: ['127.0.0.1']; protocol version: 66
+2025-10-04 16:23:17,550 - cassandra.pool - DEBUG - Host 127.0.0.1:9042 is now marked up
+2025-10-04 16:23:17,551 - cassandra.cluster - DEBUG - [control connection] Opening new connection to 127.0.0.1:9042
+2025-10-04 16:23:17,551 - cassandra.connection - DEBUG - Sending initial options message for new connection (124811925120752) to 127.0.0.1:9042
+2025-10-04 16:23:17,551 - cassandra.io.libevreactor - DEBUG - Starting libev event loop
+2025-10-04 16:23:17,554 - cassandra.connection - DEBUG - Defuncting connection (124811925120752) to 127.0.0.1:9042: <Error from server: code=000a [Protocol error] message="Invalid or unsupported protocol version (66); supported versions are (3/v3, 4/v4, 5/v5, 6/v6-beta)">
+2025-10-04 16:23:17,554 - cassandra.io.libevreactor - DEBUG - Closing connection (124811925120752) to 127.0.0.1:9042
+2025-10-04 16:23:17,554 - cassandra.io.libevreactor - DEBUG - Closed socket to 127.0.0.1:9042
+2025-10-04 16:23:17,555 - cassandra.io.libevreactor - DEBUG - All Connections currently closed, event loop ended
+2025-10-04 16:23:17,555 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-04 16:23:17,556 - cassandra.connection - DEBUG - Sending initial options message for new connection (124811925120752) to 127.0.0.1:9042
+2025-10-04 16:23:17,556 - cassandra.io.libevreactor - DEBUG - Starting libev event loop
+2025-10-04 16:23:17,558 - cassandra.connection - DEBUG - Defuncting connection (124811925120752) to 127.0.0.1:9042: <Error from server: code=000a [Protocol error] message="Invalid or unsupported protocol version (65); supported versions are (3/v3, 4/v4, 5/v5, 6/v6-beta)">
+2025-10-04 16:23:17,558 - cassandra.io.libevreactor - DEBUG - Closing connection (124811925120752) to 127.0.0.1:9042
+2025-10-04 16:23:17,558 - cassandra.io.libevreactor - DEBUG - Closed socket to 127.0.0.1:9042
+2025-10-04 16:23:17,559 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-04 16:23:17,559 - cassandra.io.libevreactor - DEBUG - All Connections currently closed, event loop ended
+2025-10-04 16:23:17,560 - cassandra.connection - DEBUG - Sending initial options message for new connection (124811925120752) to 127.0.0.1:9042
+2025-10-04 16:23:17,561 - cassandra.io.libevreactor - DEBUG - Starting libev event loop
+2025-10-04 16:23:17,562 - cassandra.connection - DEBUG - Received options response on new connection (124811925120752) from 127.0.0.1:9042
+2025-10-04 16:23:17,563 - cassandra.connection - DEBUG - No available compression types supported on both ends. locally supported: odict_keys([]). remotely supported: ['snappy', 'lz4']
+2025-10-04 16:23:17,563 - cassandra.connection - DEBUG - Sending StartupMessage on <LibevConnection(124811925120752) 127.0.0.1:9042>
+2025-10-04 16:23:17,564 - cassandra.connection - DEBUG - Sent StartupMessage on <LibevConnection(124811925120752) 127.0.0.1:9042>
+2025-10-04 16:23:17,567 - cassandra.connection - DEBUG - Got ReadyMessage on new connection (124811925120752) from 127.0.0.1:9042
+2025-10-04 16:23:17,567 - cassandra.connection - DEBUG - Enabling protocol checksumming on connection (124811925120752).
+2025-10-04 16:23:17,568 - cassandra.cluster - DEBUG - [control connection] Established new connection <LibevConnection(124811925120752) 127.0.0.1:9042>, registering watchers and refreshing schema and topology
+2025-10-04 16:23:17,583 - cassandra.cluster - DEBUG - [control connection] Refreshing node list and token map using preloaded results
+2025-10-04 16:23:17,583 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-04 16:23:17,584 - cassandra.cluster - DEBUG - [control connection] Finished fetching ring info
+2025-10-04 16:23:17,584 - cassandra.cluster - DEBUG - [control connection] Rebuilding token map due to topology changes
+2025-10-04 16:23:17,622 - cassandra.cluster - DEBUG - Control connection created
+2025-10-04 16:23:17,624 - cassandra.pool - DEBUG - Initializing connection for host 127.0.0.1:9042
+2025-10-04 16:23:17,625 - cassandra.connection - DEBUG - Sending initial options message for new connection (124811822007840) to 127.0.0.1:9042
+2025-10-04 16:23:17,630 - cassandra.connection - DEBUG - Received options response on new connection (124811822007840) from 127.0.0.1:9042
+2025-10-04 16:23:17,631 - cassandra.connection - DEBUG - No available compression types supported on both ends. locally supported: odict_keys([]). remotely supported: ['snappy', 'lz4']
+2025-10-04 16:23:17,631 - cassandra.connection - DEBUG - Sending StartupMessage on <LibevConnection(124811822007840) 127.0.0.1:9042>
+2025-10-04 16:23:17,632 - cassandra.connection - DEBUG - Sent StartupMessage on <LibevConnection(124811822007840) 127.0.0.1:9042>
+2025-10-04 16:23:17,633 - cassandra.connection - DEBUG - Got ReadyMessage on new connection (124811822007840) from 127.0.0.1:9042
+2025-10-04 16:23:17,634 - cassandra.connection - DEBUG - Enabling protocol checksumming on connection (124811822007840).
+2025-10-04 16:23:17,635 - cassandra.pool - DEBUG - Finished initializing connection for host 127.0.0.1:9042
+2025-10-04 16:23:17,635 - cassandra.cluster - DEBUG - Added pool for host 127.0.0.1:9042 to session
+2025-10-04 16:23:17,636 - cassandra.cluster - DEBUG - Not starting MonitorReporter thread for Insights; not supported by server version 5.0.5 on ControlConnection host 127.0.0.1:9042
+2025-10-04 16:23:17,637 - cassandra.cluster - DEBUG - Started Session with client_id 44b53d28-b49a-48aa-955e-31ab9e3dff5f and session_id 0c76317f-55e0-45f9-a78a-403231540d5d
+2025-10-04 16:23:17,642 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-04 16:23:17,643 - src.data_extraction.htc_extractor - ERROR - Erro ao extrair eventos da simulação bfs_cenario_1000_viagens_2: not all arguments converted during string formatting
+2025-10-04 16:23:17,646 - src.data_extraction.htc_extractor - DEBUG - Traceback completo: Traceback (most recent call last):
+  File "/home/dean/PhD/scripts/simulations_analysis/src/data_extraction/htc_extractor.py", line 85, in get_events_by_simulation
+    rows = self.session.execute(query, [simulation_id])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "cassandra/cluster.py", line 2677, in cassandra.cluster.Session.execute
+  File "cassandra/cluster.py", line 2720, in cassandra.cluster.Session.execute_async
+  File "cassandra/cluster.py", line 2979, in cassandra.cluster.Session._create_response_future
+  File "cassandra/query.py", line 905, in cassandra.query.bind_params
+TypeError: not all arguments converted during string formatting
+
+2025-10-04 16:23:17,647 - src.data_extraction.htc_extractor - ERROR - Erro ao extrair eventos da simulação bfs_cenario_1000_viagens_2: not all arguments converted during string formatting
+2025-10-04 16:23:17,648 - src.data_extraction.htc_extractor - DEBUG - Traceback completo: Traceback (most recent call last):
+  File "/home/dean/PhD/scripts/simulations_analysis/src/data_extraction/htc_extractor.py", line 85, in get_events_by_simulation
+    rows = self.session.execute(query, [simulation_id])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "cassandra/cluster.py", line 2677, in cassandra.cluster.Session.execute
+  File "cassandra/cluster.py", line 2720, in cassandra.cluster.Session.execute_async
+  File "cassandra/cluster.py", line 2979, in cassandra.cluster.Session._create_response_future
+  File "cassandra/query.py", line 905, in cassandra.query.bind_params
+TypeError: not all arguments converted during string formatting
+
+2025-10-04 16:23:17,649 - cassandra.cluster - DEBUG - Shutting down Cluster Scheduler
+2025-10-04 16:23:17,649 - cassandra.cluster - DEBUG - Shutting down control connection
+2025-10-04 16:23:17,650 - cassandra.io.libevreactor - DEBUG - Closing connection (124811925120752) to 127.0.0.1:9042
+2025-10-04 16:23:17,651 - cassandra.io.libevreactor - DEBUG - Closed socket to 127.0.0.1:9042
+2025-10-04 16:23:17,651 - cassandra.io.libevreactor - DEBUG - Closing connection (124811822007840) to 127.0.0.1:9042
+2025-10-04 16:23:17,652 - cassandra.io.libevreactor - DEBUG - Closed socket to 127.0.0.1:9042
+2025-10-04 16:23:17,653 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-04 16:23:17,654 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:23:17,654 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:23:20,298 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:23:20,299 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:23:20,299 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:23:22,651 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:23:22,808 - __main__ - ERROR - Erro durante a análise: Uma ou ambas simulações não possuem eventos
+Traceback (most recent call last):
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 368, in main
+    analyzer.compare_simulations(args.htc_sim, args.ref_sim)
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 162, in compare_simulations
+    raise ValueError("Uma ou ambas simulações não possuem eventos")
+ValueError: Uma ou ambas simulações não possuem eventos
+2025-10-04 16:24:18,088 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:24:18,090 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-04 16:24:18,094 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-04 16:24:18,097 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-04 16:24:18,110 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-04 16:24:18,171 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-04 16:24:18,171 - src.data_extraction.htc_extractor - ERROR - Erro ao extrair eventos da simulação bfs_cenario_1000_viagens_2: not all arguments converted during string formatting
+2025-10-04 16:24:18,173 - src.data_extraction.htc_extractor - ERROR - Erro ao extrair eventos da simulação bfs_cenario_1000_viagens_2: not all arguments converted during string formatting
+2025-10-04 16:24:18,175 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-04 16:24:18,178 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:24:18,179 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:24:20,854 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:24:20,854 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:24:20,854 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:24:23,227 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:24:23,402 - __main__ - ERROR - Erro durante a análise: Uma ou ambas simulações não possuem eventos
+Traceback (most recent call last):
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 368, in main
+    analyzer.compare_simulations(args.htc_sim, args.ref_sim)
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 162, in compare_simulations
+    raise ValueError("Uma ou ambas simulações não possuem eventos")
+ValueError: Uma ou ambas simulações não possuem eventos
+2025-10-04 16:26:33,687 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:26:33,689 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-04 16:26:33,692 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-04 16:26:33,694 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-04 16:26:33,705 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-04 16:26:33,755 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-04 16:26:40,934 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-04 16:26:47,603 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-04 16:26:47,788 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-04 16:26:47,788 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:26:47,788 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:26:50,073 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:26:50,073 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:26:50,073 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:26:52,552 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:26:52,705 - src.comparison.simulator_comparator - INFO - Comparando simulação HTC bfs_cenario_1000_viagens_2 com events
+2025-10-04 16:28:45,785 - src.visualization.plotter - INFO - Gráfico de métricas básicas salvo em: output/plots/basic_metrics_comparison.png
+2025-10-04 16:28:47,008 - src.visualization.plotter - INFO - Gráfico de distribuição de velocidades salvo em: output/plots/speed_distribution.png
+2025-10-04 16:28:49,113 - src.visualization.plotter - INFO - Dashboard interativo salvo em: output/plots/interactive_dashboard.html
+2025-10-04 16:28:49,114 - src.visualization.plotter - INFO - Relatório HTML salvo em: output/plots/comparison_report.html
+2025-10-04 16:28:49,115 - __main__ - INFO - Comparação concluída
+2025-10-04 16:28:49,116 - __main__ - INFO - Resultados salvos em: output/comparison_bfs_cenario_1000_viagens_2_vs_events.json
+2025-10-04 16:28:49,116 - __main__ - INFO - Relatório HTML: output/plots/comparison_report.html
+2025-10-04 16:28:49,402 - __main__ - INFO - Análise concluída com sucesso!
+2025-10-04 16:44:45,290 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:44:45,291 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-04 16:44:45,295 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-04 16:44:45,296 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-04 16:44:45,303 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-04 16:44:45,332 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-04 16:44:51,657 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-04 16:44:57,821 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-04 16:44:57,990 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-04 16:44:57,991 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:44:57,991 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:45:00,173 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:45:00,173 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:45:00,174 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 16:45:02,567 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 16:45:02,775 - src.comparison.simulator_comparator - INFO - Comparando simulação HTC bfs_cenario_1000_viagens_2 com events
+2025-10-04 16:46:44,772 - src.visualization.plotter - INFO - Gráfico de métricas básicas salvo em: output/plots/basic_metrics_comparison.png
+2025-10-04 16:46:45,795 - src.visualization.plotter - INFO - Gráfico de distribuição de velocidades salvo em: output/plots/speed_distribution.png
+2025-10-04 16:46:47,634 - src.visualization.plotter - INFO - Dashboard interativo salvo em: output/plots/interactive_dashboard.html
+2025-10-04 16:46:47,634 - src.visualization.plotter - INFO - Relatório HTML salvo em: output/plots/comparison_report.html
+2025-10-04 16:46:47,637 - __main__ - INFO - Comparação concluída
+2025-10-04 16:46:47,637 - __main__ - INFO - Resultados salvos em: output/comparison_bfs_cenario_1000_viagens_2_vs_events.json
+2025-10-04 16:46:47,637 - __main__ - INFO - Relatório HTML: output/plots/comparison_report.html
+2025-10-04 16:46:47,915 - __main__ - INFO - Análise concluída com sucesso!
+2025-10-04 17:08:59,614 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 17:08:59,616 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-04 17:08:59,619 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-04 17:08:59,620 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-04 17:08:59,626 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-04 17:08:59,664 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-04 17:09:05,846 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-04 17:09:11,838 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-04 17:09:12,059 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-04 17:09:12,060 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 17:09:12,061 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 17:09:14,249 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 17:09:14,250 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 17:09:14,250 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-04 17:09:16,550 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-04 17:09:16,694 - src.comparison.simulator_comparator - INFO - Comparando simulação HTC bfs_cenario_1000_viagens_2 com events
+2025-10-04 17:10:59,140 - src.visualization.plotter - INFO - Gráfico de métricas básicas salvo em: output/plots/basic_metrics_comparison.png
+2025-10-04 17:11:00,201 - src.visualization.plotter - INFO - Gráfico de distribuição de velocidades salvo em: output/plots/speed_distribution.png
+2025-10-04 17:11:02,231 - src.visualization.plotter - INFO - Dashboard interativo salvo em: output/plots/interactive_dashboard.html
+2025-10-04 17:11:02,232 - src.visualization.plotter - INFO - Relatório HTML salvo em: output/plots/comparison_report.html
+2025-10-04 17:11:02,236 - __main__ - INFO - Comparação concluída
+2025-10-04 17:11:02,236 - __main__ - INFO - Resultados salvos em: output/comparison_bfs_cenario_1000_viagens_2_vs_events.json
+2025-10-04 17:11:02,236 - __main__ - INFO - Relatório HTML: output/plots/comparison_report.html
+2025-10-04 17:11:02,536 - __main__ - INFO - Análise concluída com sucesso!
+2025-10-05 08:45:07,998 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 08:45:08,000 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-05 08:45:08,002 - cassandra.cluster - WARNING - [control connection] Error connecting to 127.0.0.1:9042:
+Traceback (most recent call last):
+  File "cassandra/cluster.py", line 3577, in cassandra.cluster.ControlConnection._reconnect_internal
+  File "cassandra/cluster.py", line 3599, in cassandra.cluster.ControlConnection._try_connect
+  File "cassandra/cluster.py", line 1670, in cassandra.cluster.Cluster.connection_factory
+  File "cassandra/connection.py", line 846, in cassandra.connection.Connection.factory
+  File "/home/dean/PhD/scripts/simulations_analysis/venv/lib/python3.12/site-packages/cassandra/io/libevreactor.py", line 267, in __init__
+    self._connect_socket()
+  File "cassandra/connection.py", line 951, in cassandra.connection.Connection._connect_socket
+ConnectionRefusedError: [Errno 111] Tried connecting to [('127.0.0.1', 9042)]. Last error: Connection refused
+2025-10-05 08:45:08,003 - cassandra.cluster - ERROR - Control connection failed to connect, shutting down Cluster:
+Traceback (most recent call last):
+  File "cassandra/cluster.py", line 1740, in cassandra.cluster.Cluster.connect
+  File "cassandra/cluster.py", line 3543, in cassandra.cluster.ControlConnection.connect
+  File "cassandra/cluster.py", line 3588, in cassandra.cluster.ControlConnection._reconnect_internal
+cassandra.cluster.NoHostAvailable: ('Unable to connect to any servers', {'127.0.0.1:9042': ConnectionRefusedError(111, "Tried connecting to [('127.0.0.1', 9042)]. Last error: Connection refused")})
+2025-10-05 08:45:08,003 - src.data_extraction.htc_extractor - ERROR - Erro ao conectar ao Cassandra: ('Unable to connect to any servers', {'127.0.0.1:9042': ConnectionRefusedError(111, "Tried connecting to [('127.0.0.1', 9042)]. Last error: Connection refused")})
+2025-10-05 08:45:08,003 - __main__ - ERROR - Erro durante a análise: Não foi possível conectar ao Cassandra
+Traceback (most recent call last):
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 368, in main
+    analyzer.compare_simulations(args.htc_sim, args.ref_sim)
+  File "/home/dean/PhD/scripts/simulations_analysis/main.py", line 150, in compare_simulations
+    raise ConnectionError("Não foi possível conectar ao Cassandra")
+ConnectionError: Não foi possível conectar ao Cassandra
+2025-10-05 08:47:47,270 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 08:47:47,271 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-05 08:47:47,275 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 08:47:47,278 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 08:47:47,288 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-05 08:47:47,357 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-05 08:47:52,502 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 08:47:55,758 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 08:47:55,854 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-05 08:47:55,856 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 08:47:55,856 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 08:47:57,092 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 08:47:57,092 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 08:47:57,092 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 08:47:58,518 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 08:47:58,632 - src.comparison.simulator_comparator - INFO - Comparando simulação HTC bfs_cenario_1000_viagens_2 com events
+2025-10-05 08:49:05,081 - src.visualization.plotter - INFO - Gráfico de métricas básicas salvo em: output/plots/basic_metrics_comparison.png
+2025-10-05 08:49:06,059 - src.visualization.plotter - INFO - Gráfico de distribuição de velocidades salvo em: output/plots/speed_distribution.png
+2025-10-05 08:49:07,084 - src.visualization.plotter - INFO - Dashboard interativo salvo em: output/plots/interactive_dashboard.html
+2025-10-05 08:49:07,085 - src.visualization.plotter - INFO - Relatório HTML salvo em: output/plots/comparison_report.html
+2025-10-05 08:49:07,086 - __main__ - INFO - Comparação concluída
+2025-10-05 08:49:07,086 - __main__ - INFO - Resultados salvos em: output/comparison_bfs_cenario_1000_viagens_2_vs_events.json
+2025-10-05 08:49:07,086 - __main__ - INFO - Relatório HTML: output/plots/comparison_report.html
+2025-10-05 08:49:07,218 - __main__ - INFO - Análise concluída com sucesso!

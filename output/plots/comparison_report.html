@@ -1,0 +1,224 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Relatório de Comparação de Simulações</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+                .header { background-color: #f0f0f0; padding: 20px; border-radius: 10px; }
+                .section { margin: 20px 0; }
+                .methodology { background-color: #f9f9f9; padding: 15px; margin: 10px 0; border-left: 4px solid #2196F3; border-radius: 5px; }
+                .metric { background-color: #e8f4f8; padding: 10px; margin: 5px 0; border-radius: 5px; }
+                .plot { text-align: center; margin: 20px 0; }
+                .plot img { max-width: 100%; height: auto; }
+                table { border-collapse: collapse; width: 100%; }
+                th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                th { background-color: #f2f2f2; }
+                .collapsible { background-color: #777; color: white; cursor: pointer; padding: 10px; width: 100%; border: none; text-align: left; outline: none; font-size: 14px; }
+                .active, .collapsible:hover { background-color: #555; }
+                .content { padding: 0 15px; display: none; overflow: hidden; background-color: #f9f9f9; }
+                code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 3px; font-family: monospace; }
+                .warning { background-color: #fff3cd; border: 1px solid #ffeaa7; padding: 10px; border-radius: 5px; margin: 10px 0; }
+            </style>
+            <script>
+                function toggleContent(element) {
+                    element.classList.toggle("active");
+                    var content = element.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                }
+            </script>
+        </head>
+        <body>
+            <div class="header">
+                <h1>Relatório de Comparação de Simulações</h1>
+                <p><strong>Simulação HTC:</strong> bfs_cenario_1000_viagens_2</p>
+                <p><strong>Simulação Interscsimulator:</strong> events</p>
+                <p><strong>Data de Geração:</strong> 2025-10-05 08:49:07</p>
+            </div>
+            
+            <div class="section">
+                <h2>Resumo Executivo</h2>
+                <div class="metric">
+                    <strong>Score de Similaridade:</strong> 0.998 (99.8%)
+                </div>
+                <div class="metric">
+                    <strong>Score de Reprodutibilidade:</strong> 0.500 (50.0%)
+                </div>
+                
+                <button class="collapsible" onclick="toggleContent(this)">📊 Metodologia dos Scores Principais</button>
+                <div class="content">
+                    <div class="methodology">
+                        
+            <strong>Score de Similaridade Geral:</strong><br>
+            Métrica composta que avalia o quão similares são as duas simulações através de três componentes:<br>
+            • <em>Similaridade de Veículos:</em> 1 - |N_htc - N_ref| / max(N_htc, N_ref)<br>
+            • <em>Similaridade de Tipos de Eventos:</em> Comparação das proporções de cada tipo de evento<br>
+            • <em>Similaridade Temporal:</em> 1 - |duração_htc - duração_ref| / max(duração_htc, duração_ref)<br>
+            O score final é a média aritmética desses três componentes (0-1, onde 1 = idêntico).
+            
+                    </div>
+                    <div class="methodology">
+                        
+            <strong>Score de Reprodutibilidade:</strong><br>
+            Avalia se as simulações reproduzem os mesmos comportamentos através de:<br>
+            • <em>Sobreposição de Veículos:</em> |veículos_comuns| / |veículos_totais|<br>
+            • <em>Similaridade de Rotas:</em> Para veículos comuns, compara sequências de links visitados<br>
+            O score final é a média ponderada desses componentes (0-1, onde 1 = perfeitamente reprodutível).
+            
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Métricas de Correlação</h2>
+                <table>
+                    <tr><th>Métrica</th><th>Valor</th><th>Interpretação</th></tr>
+        
+                </table>
+                
+                <button class="collapsible" onclick="toggleContent(this)">📈 Metodologia das Correlações</button>
+                <div class="content">
+                    <div class="methodology">
+        
+            <strong>Correlação de Pearson:</strong><br>
+            Mede a relação linear entre variáveis das duas simulações.<br>
+            Fórmula: r = Σ[(x_i - x̄)(y_i - ȳ)] / √[Σ(x_i - x̄)²Σ(y_i - ȳ)²]<br>
+            Valores: -1 (correlação negativa perfeita) a +1 (correlação positiva perfeita).
+            
+                    </div>
+                    <div class="methodology">
+        
+            <strong>Correlação de Spearman:</strong><br>
+            Mede relações monotônicas (não necessariamente lineares) entre variáveis.<br>
+            Baseada nos rankings dos dados ao invés dos valores absolutos.<br>
+            Mais robusta a outliers que a correlação de Pearson.
+            
+                    </div>
+                    <div class="methodology">
+        
+            <strong>Métricas Temporais:</strong><br>
+            Calculadas usando janelas de tempo adaptativas:<br>
+            • <em>HTC:</em> Janelas de max(1, duração/100) unidades (otimizado para valores discretos)<br>
+            • <em>Interscsimulator:</em> Janelas de max(30, duração/50) segundos (otimizado para timestamps contínuos)<br>
+            Para cada janela calcula-se: velocidade média, densidade média, número de veículos únicos.
+            
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Diferenças Principais</h2>
+                <table>
+                    <tr><th>Métrica</th><th>Diferença Normalizada</th><th>Avaliação</th></tr>
+        <tr><td>vehicles_diff</td><td>0.0000</td><td>Muito Similar</td></tr><tr><td>distance_diff</td><td>20781.5743</td><td>Muito Diferente</td></tr><tr><td>speed_diff</td><td>0.0279</td><td>Muito Similar</td></tr><tr><td>travel_time_diff</td><td>53.9970</td><td>Muito Diferente</td></tr><tr><td>throughput_diff</td><td>0.0000</td><td>Muito Similar</td></tr><tr><td>vehicles_rel_diff</td><td>0.0000</td><td>Muito Similar</td></tr><tr><td>speed_rel_diff</td><td>0.2334</td><td>Similar</td></tr><tr><td>travel_time_rel_diff</td><td>4.1050</td><td>Muito Diferente</td></tr>
+                </table>
+                
+                <button class="collapsible" onclick="toggleContent(this)">🔍 Metodologia do Cálculo de Diferenças</button>
+                <div class="content">
+                    <div class="methodology">
+        
+            <strong>Cálculo de Diferenças:</strong><br>
+            Para cada métrica M: |M_htc - M_ref| / max(|M_htc|, |M_ref|)<br>
+            Normalização permite comparar métricas de diferentes escalas.<br>
+            Valores próximos a 0 indicam alta similaridade, próximos a 1 indicam alta diferença.
+            
+                    </div>
+                    <div class="methodology">
+        
+            <strong>Métricas Básicas:</strong><br>
+            • <em>Total de Veículos:</em> Contagem de IDs únicos de veículos<br>
+            • <em>Distância Total:</em> Soma das distâncias percorridas (eventos 'journey_completed')<br>
+            • <em>Velocidade Média:</em> Média das velocidades calculadas em eventos 'enter_link'<br>
+            • <em>Tempo de Viagem Médio:</em> Diferença temporal entre primeiro e último evento por veículo<br>
+            • <em>Throughput:</em> Veículos únicos / duração da simulação
+            
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Testes Estatísticos</h2>
+                <table>
+                    <tr><th>Teste</th><th>Estatística</th><th>P-valor</th><th>Interpretação</th></tr>
+        <tr><td>speed_t_test</td><td>-1.0970</td><td>0.2727</td><td>Sem diferença significativa (p ≥ 0.1)</td></tr><tr><td>speed_ks_test</td><td>0.2430</td><td>0.0000</td><td>Diferença altamente significativa (p < 0.001)</td></tr><tr><td>density_mannwhitney</td><td>5231847.0000</td><td>0.0000</td><td>Diferença altamente significativa (p < 0.001)</td></tr>
+                </table>
+                
+                <button class="collapsible" onclick="toggleContent(this)">🔬 Metodologia dos Testes Estatísticos</button>
+                <div class="content">
+                    <div class="methodology">
+        
+            <strong>Teste t para Velocidades:</strong><br>
+            Testa se as médias de velocidade entre simulações são estatisticamente diferentes.<br>
+            H₀: μ_htc = μ_ref (médias iguais)<br>
+            H₁: μ_htc ≠ μ_ref (médias diferentes)<br>
+            p < 0.05 indica diferença significativa.
+            
+                    </div>
+                    <div class="methodology">
+        
+            <strong>Teste Kolmogorov-Smirnov para Velocidades:</strong><br>
+            Testa se as distribuições de velocidade são idênticas.<br>
+            Compara as funções de distribuição cumulativa (CDF) das duas amostras.<br>
+            Mais sensível a diferenças na forma da distribuição que o teste t.
+            
+                    </div>
+                    <div class="methodology">
+        
+            <strong>Teste Mann-Whitney U para Densidades:</strong><br>
+            Teste não-paramétrico que compara medianas de densidade entre simulações.<br>
+            Não assume distribuição normal dos dados.<br>
+            Baseado na comparação de rankings entre as amostras.
+            
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Considerações Metodológicas</h2>
+                <div class="warning">
+                    <h3>⚠️ Adaptações Específicas para Simuladores</h3>
+                    <p><strong>Processamento Temporal Adaptativo:</strong> O sistema detecta automaticamente o tipo de simulador e ajusta as janelas temporais:</p>
+                    <ul>
+                        <li><strong>HTC:</strong> Usa valores discretos de 'tick' com janelas pequenas otimizadas para dados pontuais</li>
+                        <li><strong>Interscsimulator:</strong> Usa timestamps contínuos com janelas maiores para suavização temporal</li>
+                    </ul>
+                    <p>Esta adaptação resolve problemas de visualização onde dados HTC apareciam como "zig-zag" devido ao uso de janelas temporais inadequadas para sua natureza discreta.</p>
+                </div>
+                
+                <div class="warning">
+                    <h3>📝 Limitações e Interpretação</h3>
+                    <ul>
+                        <li><strong>Normalização de IDs:</strong> Assume mapeamento 1:1 entre veículos das simulações</li>
+                        <li><strong>Sincronização Temporal:</strong> Alinhamento baseado em timestamps pode introduzir pequenas discrepâncias</li>
+                        <li><strong>Significância Estatística:</strong> P-valores < 0.05 indicam diferenças estatisticamente detectáveis, mas não necessariamente práticas</li>
+                        <li><strong>Tamanho da Amostra:</strong> Resultados mais confiáveis com maior número de eventos e veículos</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Gráficos de Análise</h2>
+        
+                <div class="plot">
+                    <h3>Basic Metrics Comparison</h3>
+                    <img src="output/plots/basic_metrics_comparison.png" alt="Basic Metrics Comparison">
+                </div>
+                
+                <div class="plot">
+                    <h3>Speed Distribution</h3>
+                    <img src="output/plots/speed_distribution.png" alt="Speed Distribution">
+                </div>
+                
+                <div class="plot">
+                    <h3>Interactive Dashboard</h3>
+                    <img src="output/plots/interactive_dashboard.html" alt="Interactive Dashboard">
+                </div>
+                
+            </div>
+        </body>
+        </html>
+        
