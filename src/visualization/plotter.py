@@ -232,12 +232,41 @@ class SimulationVisualizer:
         htc_df = self._events_to_dataframe(htc_events, 'HTC')
         ref_df = self._events_to_dataframe(ref_events, 'Interscsimulator')
         
+        # Logs detalhados de validação
+        self.logger.info("=== VALIDAÇÃO DETALHADA DE LINKS ===")
+        self.logger.info(f"Total de eventos HTC: {len(htc_df)}")
+        self.logger.info(f"Total de eventos Interscsimulator: {len(ref_df)}")
+        
+        # Verificar tipos de eventos para links
+        htc_link_events = htc_df[htc_df['event_type'].isin(['enter_link', 'leave_link'])]
+        ref_link_events = ref_df[ref_df['event_type'].isin(['enter_link', 'leave_link'])]
+        
+        self.logger.info(f"Eventos de link HTC: {len(htc_link_events)}")
+        self.logger.info(f"Eventos de link Interscsimulator: {len(ref_link_events)}")
+        
         htc_links = set(htc_df['normalized_link_id'].dropna().unique())
         ref_links = set(ref_df['normalized_link_id'].dropna().unique())
+        
+        self.logger.info(f"Links únicos HTC: {len(htc_links)}")
+        self.logger.info(f"Links únicos Interscsimulator: {len(ref_links)}")
+        
+        # Mostrar primeiros 10 links de cada simulador para comparação
+        self.logger.info(f"Primeiros 10 links HTC: {sorted(list(htc_links))[:10]}")
+        self.logger.info(f"Primeiros 10 links Interscsimulator: {sorted(list(ref_links))[:10]}")
         
         common_links = htc_links & ref_links
         htc_only = htc_links - ref_links
         ref_only = ref_links - htc_links
+        
+        self.logger.info(f"Links comuns: {len(common_links)}")
+        self.logger.info(f"Links exclusivos HTC: {len(htc_only)}")
+        self.logger.info(f"Links exclusivos Interscsimulator: {len(ref_only)}")
+        self.logger.info("=== FIM VALIDAÇÃO ===")
+        
+        # Verificar se há discrepância muito grande
+        if len(ref_links) > 2 * len(htc_links):
+            self.logger.warning(f"⚠️  ATENÇÃO: Interscsimulator tem {len(ref_links)/len(htc_links) if len(htc_links) > 0 else 'infinitos'}x mais links que HTC!")
+            self.logger.warning("Isso pode indicar diferenças na representação da rede ou algoritmo de roteamento")
         
         # Dados para o gráfico
         categories = ['HTC Únicos', 'Interscsimulator Únicos', 'Links Comuns', 'Total HTC', 'Total Interscsimulator']
@@ -489,6 +518,127 @@ class SimulationVisualizer:
         plt.close()
         
         self.logger.info(f"Gráfico de eficiência de trajetos salvo em: {save_path}")
+        return str(save_path)
+    
+    def plot_links_heatmap_by_hour(self, 
+                                  htc_events: List[Any], 
+                                  ref_events: List[Any],
+                                  save_path: Optional[str] = None) -> str:
+        """Mapa de calor de acessos por link ao longo das horas do dia"""
+        
+        # Extrair dados
+        htc_df = self._events_to_dataframe(htc_events, 'HTC')
+        ref_df = self._events_to_dataframe(ref_events, 'Interscsimulator')
+        
+        # Filtrar apenas eventos enter_link para contar acessos
+        htc_enter = htc_df[htc_df['event_type'] == 'enter_link']
+        ref_enter = ref_df[ref_df['event_type'] == 'enter_link']
+        
+        def create_heatmap_data(df, simulator_name):
+            if df.empty:
+                return pd.DataFrame(), f"Dados vazios para {simulator_name}"
+            
+            # Converter timestamp para horas
+            # Assumindo que o timestamp está em ticks, vamos converter para horas simuladas
+            df = df.copy()
+            df['timestamp'] = pd.to_numeric(df['timestamp'], errors='coerce')
+            
+            # Normalizar timestamps para começar do zero
+            min_time = df['timestamp'].min()
+            df['normalized_time'] = df['timestamp'] - min_time
+            
+            # Converter para horas (assumindo que a simulação representa um dia)
+            # Vamos dividir em 24 horas proporcionalmente
+            max_time = df['normalized_time'].max()
+            if max_time > 0:
+                df['hour'] = (df['normalized_time'] / max_time * 24).astype(int)
+                df['hour'] = df['hour'].clip(0, 23)  # Garantir que fica entre 0-23
+            else:
+                df['hour'] = 0
+            
+            # Filtrar apenas links que existem
+            df = df[df['normalized_link_id'].notna()]
+            
+            # Contar acessos por link e hora
+            heatmap_data = df.groupby(['normalized_link_id', 'hour']).size().reset_index(name='access_count')
+            
+            # Criar pivot table para o heatmap
+            pivot_data = heatmap_data.pivot(index='normalized_link_id', columns='hour', values='access_count')
+            pivot_data = pivot_data.fillna(0)
+            
+            # Garantir que temos todas as 24 horas
+            for hour in range(24):
+                if hour not in pivot_data.columns:
+                    pivot_data[hour] = 0
+            
+            # Ordenar colunas
+            pivot_data = pivot_data.reindex(sorted(pivot_data.columns), axis=1)
+            
+            # Limitar a top N links mais utilizados para melhor visualização
+            top_links = heatmap_data.groupby('normalized_link_id')['access_count'].sum().nlargest(30).index
+            pivot_data = pivot_data.loc[pivot_data.index.isin(top_links)]
+            
+            return pivot_data, f"{len(pivot_data)} links, {heatmap_data['access_count'].sum()} acessos totais"
+        
+        # Criar dados para ambos simuladores
+        htc_heatmap, htc_info = create_heatmap_data(htc_enter, 'HTC')
+        ref_heatmap, ref_info = create_heatmap_data(ref_enter, 'Interscsimulator')
+        
+        # Criar subplots
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 12))
+        fig.suptitle('Mapa de Calor: Acessos por Link ao Longo das Horas do Dia', fontsize=16)
+        
+        # Mapa de calor HTC
+        if not htc_heatmap.empty:
+            sns.heatmap(htc_heatmap, 
+                       ax=ax1,
+                       cmap='YlOrRd', 
+                       cbar_kws={'label': 'Número de Acessos'},
+                       xticklabels=True,
+                       yticklabels=[str(link)[:15] + '...' if len(str(link)) > 15 else str(link) 
+                                   for link in htc_heatmap.index])
+            
+            ax1.set_title(f'HTC - {htc_info}')
+            ax1.set_xlabel('Hora do Dia (0-23)')
+            ax1.set_ylabel('Link ID')
+        else:
+            ax1.text(0.5, 0.5, 'Dados insuficientes para HTC', 
+                    ha='center', va='center', transform=ax1.transAxes)
+            ax1.set_title('HTC - Sem dados')
+        
+        # Mapa de calor Interscsimulator
+        if not ref_heatmap.empty:
+            sns.heatmap(ref_heatmap, 
+                       ax=ax2,
+                       cmap='YlOrRd', 
+                       cbar_kws={'label': 'Número de Acessos'},
+                       xticklabels=True,
+                       yticklabels=[str(link)[:15] + '...' if len(str(link)) > 15 else str(link) 
+                                   for link in ref_heatmap.index])
+            
+            ax2.set_title(f'Interscsimulator - {ref_info}')
+            ax2.set_xlabel('Hora do Dia (0-23)')
+            ax2.set_ylabel('Link ID')
+        else:
+            ax2.text(0.5, 0.5, 'Dados insuficientes para Interscsimulator', 
+                    ha='center', va='center', transform=ax2.transAxes)
+            ax2.set_title('Interscsimulator - Sem dados')
+        
+        plt.tight_layout()
+        
+        if save_path is None:
+            save_path = self.output_dir / 'links_heatmap_by_hour.png'
+        
+        plt.savefig(save_path, dpi=self.dpi, bbox_inches='tight')
+        plt.close()
+        
+        # Log informações de validação
+        self.logger.info("=== VALIDAÇÃO MAPA DE CALOR ===")
+        self.logger.info(f"HTC: {htc_info}")
+        self.logger.info(f"Interscsimulator: {ref_info}")
+        self.logger.info("================================")
+        
+        self.logger.info(f"Mapa de calor de links por hora salvo em: {save_path}")
         return str(save_path)
     
     def _events_to_dataframe(self, events: List[Any], simulator_type: str) -> pd.DataFrame:
@@ -783,7 +933,7 @@ class SimulationVisualizer:
             # 2. Gráfico KDE de densidade de velocidade
             plot_paths['speed_kde'] = self.plot_speed_density_kde(htc_events, ref_events)
             
-            # 3. Análise de links
+            # 3. Análise de links (com validação melhorada)
             plot_paths['link_analysis'] = self.plot_link_analysis(htc_events, ref_events)
             
             # 4. Top N links mais utilizados
@@ -794,6 +944,9 @@ class SimulationVisualizer:
             
             # 6. Eficiência de conclusão de trajetos
             plot_paths['journey_efficiency'] = self.plot_journey_completion_efficiency(htc_events, ref_events)
+            
+            # 7. Novo: Mapa de calor de links por hora
+            plot_paths['links_heatmap'] = self.plot_links_heatmap_by_hour(htc_events, ref_events)
             
             self.logger.info(f"Análise completa criada com {len(plot_paths)} gráficos")
             

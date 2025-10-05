@@ -524,3 +524,51 @@ AttributeError: 'str' object has no attribute 'repl'
 2025-10-05 09:32:02,362 - __main__ - INFO - Resultados salvos em: output/comparison_bfs_cenario_1000_viagens_2_vs_events.json
 2025-10-05 09:32:02,362 - __main__ - INFO - Relatório HTML: output/plots/comparison_report.html
 2025-10-05 09:32:02,493 - __main__ - INFO - Análise concluída com sucesso!
+2025-10-05 09:43:18,484 - __main__ - INFO - Comparando simulações: HTC bfs_cenario_1000_viagens_2 vs Interscsimulator /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:43:18,485 - cassandra.cluster - WARNING - Cluster.__init__ called with contact_points specified, but no load_balancing_policy. In the next major version, this will raise an error; please specify a load-balancing policy. (contact_points = ['127.0.0.1'], lbp = None)
+2025-10-05 09:43:18,487 - cassandra.cluster - WARNING - Downgrading core protocol version from 66 to 65 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 09:43:18,487 - cassandra.cluster - WARNING - Downgrading core protocol version from 65 to 5 for 127.0.0.1:9042. To avoid this, it is best practice to explicitly set Cluster(protocol_version) to the version supported by your cluster. http://datastax.github.io/python-driver/api/cassandra/cluster.html#cassandra.cluster.Cluster.protocol_version
+2025-10-05 09:43:18,491 - cassandra.policies - INFO - Using datacenter 'datacenter1' for DCAwareRoundRobinPolicy (via host '127.0.0.1:9042'); if incorrect, please specify a local_dc to the constructor, or limit contact points to local cluster nodes
+2025-10-05 09:43:18,507 - src.data_extraction.htc_extractor - INFO - Conectado ao Cassandra: ['127.0.0.1']:9042
+2025-10-05 09:43:21,923 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 09:43:25,237 - src.data_extraction.htc_extractor - INFO - Processadas 135000 linhas, extraídos 135000 eventos da simulação bfs_cenario_1000_viagens_2
+2025-10-05 09:43:25,307 - src.data_extraction.htc_extractor - INFO - Desconectado do Cassandra
+2025-10-05 09:43:25,308 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:43:25,308 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:43:26,585 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:43:26,585 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing streaming falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:43:26,585 - src.data_extraction.interscsimulator_extractor - WARNING - Parsing com root falhou em /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml: junk after document element: line 2, column 0
+2025-10-05 09:43:27,938 - src.data_extraction.interscsimulator_extractor - INFO - Extraídos 135185 eventos de /home/my_user/interscsimulator/output/base_scenario_1000_n/events.xml
+2025-10-05 09:43:28,032 - src.comparison.simulator_comparator - INFO - Comparando simulação HTC bfs_cenario_1000_viagens_2 com events
+2025-10-05 09:44:27,277 - src.visualization.plotter - INFO - Iniciando criação de análise completa com novos gráficos...
+2025-10-05 09:44:28,369 - src.visualization.plotter - INFO - Gráfico de eventos por tipo salvo em: output/plots/event_type_counts.png
+2025-10-05 09:44:29,948 - src.visualization.plotter - INFO - Gráfico KDE de velocidades salvo em: output/plots/speed_density_kde.png
+2025-10-05 09:44:30,694 - src.visualization.plotter - INFO - === VALIDAÇÃO DETALHADA DE LINKS ===
+2025-10-05 09:44:30,695 - src.visualization.plotter - INFO - Total de eventos HTC: 135000
+2025-10-05 09:44:30,695 - src.visualization.plotter - INFO - Total de eventos Interscsimulator: 135185
+2025-10-05 09:44:30,764 - src.visualization.plotter - INFO - Eventos de link HTC: 134000
+2025-10-05 09:44:30,764 - src.visualization.plotter - INFO - Eventos de link Interscsimulator: 133192
+2025-10-05 09:44:30,820 - src.visualization.plotter - INFO - Links únicos HTC: 5488
+2025-10-05 09:44:30,820 - src.visualization.plotter - INFO - Links únicos Interscsimulator: 10819
+2025-10-05 09:44:30,822 - src.visualization.plotter - INFO - Primeiros 10 links HTC: ['', '10', '1002', '1003', '1004', '1006', '1007', '1008', '101', '1014']
+2025-10-05 09:44:30,827 - src.visualization.plotter - INFO - Primeiros 10 links Interscsimulator: ['', '10', '10015686435648267738', '10015689791110285015', '1002', '1003', '1004', '1006', '1007', '1008']
+2025-10-05 09:44:30,829 - src.visualization.plotter - INFO - Links comuns: 5488
+2025-10-05 09:44:30,829 - src.visualization.plotter - INFO - Links exclusivos HTC: 0
+2025-10-05 09:44:30,829 - src.visualization.plotter - INFO - Links exclusivos Interscsimulator: 5331
+2025-10-05 09:44:30,829 - src.visualization.plotter - INFO - === FIM VALIDAÇÃO ===
+2025-10-05 09:44:31,205 - src.visualization.plotter - INFO - Gráfico de análise de links salvo em: output/plots/link_analysis.png
+2025-10-05 09:44:32,425 - src.visualization.plotter - INFO - Gráfico de top links salvo em: output/plots/top_20_links_usage.png
+2025-10-05 09:44:33,538 - src.visualization.plotter - INFO - Gráfico de veículos acumulados salvo em: output/plots/cumulative_vehicles.png
+2025-10-05 09:44:34,690 - src.visualization.plotter - INFO - Gráfico de eficiência de trajetos salvo em: output/plots/journey_completion_efficiency.png
+2025-10-05 09:44:36,574 - src.visualization.plotter - INFO - === VALIDAÇÃO MAPA DE CALOR ===
+2025-10-05 09:44:36,574 - src.visualization.plotter - INFO - HTC: 30 links, 67004 acessos totais
+2025-10-05 09:44:36,574 - src.visualization.plotter - INFO - Interscsimulator: 30 links, 67096 acessos totais
+2025-10-05 09:44:36,574 - src.visualization.plotter - INFO - ================================
+2025-10-05 09:44:36,574 - src.visualization.plotter - INFO - Mapa de calor de links por hora salvo em: output/plots/links_heatmap_by_hour.png
+2025-10-05 09:44:36,614 - src.visualization.plotter - INFO - Análise completa criada com 7 gráficos
+2025-10-05 09:44:36,892 - src.visualization.plotter - INFO - Dashboard interativo salvo em: output/plots/interactive_dashboard.html
+2025-10-05 09:44:36,893 - src.visualization.plotter - INFO - Relatório HTML salvo em: output/plots/comparison_report.html
+2025-10-05 09:44:36,893 - __main__ - INFO - Comparação concluída
+2025-10-05 09:44:36,894 - __main__ - INFO - Resultados salvos em: output/comparison_bfs_cenario_1000_viagens_2_vs_events.json
+2025-10-05 09:44:36,894 - __main__ - INFO - Relatório HTML: output/plots/comparison_report.html
+2025-10-05 09:44:37,009 - __main__ - INFO - Análise concluída com sucesso!
