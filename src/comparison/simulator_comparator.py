@@ -21,6 +21,7 @@ sys.path.insert(0, str(root_dir))
 
 from src.models import HTCEvent, InterscsimulatorEvent, ComparisonResult
 from src.metrics.calculator import MetricsCalculator, BasicMetrics, TrafficMetrics
+from src.data_extraction.htc_jsonl_extractor import HTCJsonlExtractor
 
 
 @dataclass
@@ -68,6 +69,13 @@ class IDNormalizer:
     
     def normalize_car_id(self, car_id: str, simulator_type: str) -> str:
         """Normaliza ID de carro"""
+        # Verificar se car_id é válido
+        if car_id is None or (isinstance(car_id, float) and pd.isna(car_id)):
+            return ""
+        
+        # Converter para string se necessário
+        car_id = str(car_id)
+        
         if simulator_type == 'htc':
             return self._normalize_htc_car_id(car_id)
         else:
@@ -75,10 +83,17 @@ class IDNormalizer:
     
     def normalize_link_id(self, link_id: str, simulator_type: str) -> str:
         """Normaliza ID de link"""
+        # Verificar se link_id é válido
+        if link_id is None or (isinstance(link_id, float) and pd.isna(link_id)):
+            return ""
+        
+        # Converter para string se necessário
+        link_id = str(link_id)
+        
         if simulator_type == 'htc':
             return self._normalize_htc_link_id(link_id)
         else:
-            return str(link_id)  # Referência já está normalizada
+            return link_id  # Referência já está normalizada
     
     def _normalize_htc_car_id(self, car_id: str) -> str:
         """Remove prefixos do HTC de IDs de carros"""
@@ -145,30 +160,43 @@ class SimulationComparator:
                           ref_sim_id: str) -> ComparisonResult:
         """Compara duas simulações completas"""
         
-        self.logger.info(f"Comparando simulação HTC {htc_sim_id} com {ref_sim_id}")
+        self.logger.info(f"🔄 Comparando simulação HTC {htc_sim_id} com {ref_sim_id}")
+        self.logger.info(f"   📊 HTC: {len(htc_events):,} eventos")
+        self.logger.info(f"   📊 Interscsimulator: {len(ref_events):,} eventos")
         
         # Normalizar IDs
+        self.logger.info("🔄 Normalizando IDs dos eventos...")
         normalized_htc = self._normalize_events(htc_events, 'htc')
         normalized_ref = self._normalize_events(ref_events, 'interscsimulator')
         
         # Calcular métricas básicas
+        self.logger.info("📊 Calculando métricas básicas HTC...")
         htc_metrics = self.metrics_calculator.calculate_basic_metrics(normalized_htc, htc_sim_id)
+        
+        self.logger.info("📊 Calculando métricas básicas Interscsimulator...")
         ref_metrics = self.metrics_calculator.calculate_basic_metrics(normalized_ref, ref_sim_id)
         
         # Calcular similaridade
+        self.logger.info("🔍 Calculando similaridade geral...")
         similarity_score = self._calculate_overall_similarity(normalized_htc, normalized_ref)
         
         # Testes estatísticos
+        self.logger.info("📈 Executando testes estatísticos...")
         statistical_tests = self._perform_statistical_tests(normalized_htc, normalized_ref)
         
         # Métricas de correlação
+        self.logger.info("🔗 Calculando correlações...")
         correlation_metrics = self._calculate_correlations(normalized_htc, normalized_ref)
         
         # Diferenças específicas
+        self.logger.info("📊 Comparando métricas...")
         differences = self.metrics_calculator.compare_metrics(htc_metrics, ref_metrics)
         
         # Reprodutibilidade
+        self.logger.info("🎯 Calculando reprodutibilidade...")
         reproducibility_score = self._calculate_reproducibility(normalized_htc, normalized_ref)
+        
+        self.logger.info("✅ Comparação concluída!")
         
         return ComparisonResult(
             htc_simulation_id=htc_sim_id,
@@ -493,6 +521,291 @@ class SimulationComparator:
             enter_events['density'] = enter_events['cars_in_link'] / enter_events['link_capacity'].replace(0, 1)
         
         return enter_events
+    
+    def compare_with_jsonl_data(self, 
+                               htc_jsonl_path: str,
+                               ref_events: List[InterscsimulatorEvent],
+                               ref_sim_id: str) -> Dict[str, Any]:
+        """
+        Compara dados do HTC via JSONL com eventos do simulador de referência
+        
+        Args:
+            htc_jsonl_path: Caminho para o arquivo JSONL do HTC
+            ref_events: Lista de eventos do simulador de referência
+            ref_sim_id: ID da simulação de referência
+            
+        Returns:
+            Dicionário com comparação detalhada incluindo análise de rotas
+        """
+        
+        self.logger.info("🚀 Iniciando comparação com dados JSONL...")
+        
+        # Extrair dados do JSONL
+        self.logger.info(f"📁 Carregando dados JSONL: {htc_jsonl_path}")
+        jsonl_extractor = HTCJsonlExtractor(htc_jsonl_path)
+        htc_df, htc_stats = jsonl_extractor.extract_events()
+        
+        if htc_df.empty:
+            self.logger.error("❌ Nenhum evento encontrado no arquivo JSONL")
+            return {}
+        
+        self.logger.info(f"✅ Carregados {len(htc_df):,} eventos do HTC")
+        
+        # Converter DataFrame em eventos para compatibilidade
+        htc_events = self._dataframe_to_events(htc_df, 'htc')
+        
+        # Comparação padrão
+        self.logger.info("🔄 Executando comparação padrão...")
+        standard_comparison = self.compare_simulations(
+            htc_events, ref_events, 
+            htc_stats.get('simulation_id', 'htc_jsonl'), ref_sim_id
+        )
+        
+        # Análise específica de rotas
+        self.logger.info("🗺️ Analisando rotas...")
+        routes_analysis = self._analyze_routes_comparison(htc_stats, ref_events)
+        
+        # Análise de eventos por tipo
+        self.logger.info("📊 Analisando distribuição de eventos...")
+        events_analysis = self._analyze_events_distribution(htc_stats, ref_events)
+        
+        # Análise temporal detalhada
+        self.logger.info("⏱️ Analisando aspectos temporais...")
+        temporal_analysis = self._analyze_temporal_aspects(htc_df, ref_events)
+        
+        # Compilar resultado
+        result = {
+            'standard_comparison': standard_comparison,
+            'routes_analysis': routes_analysis,
+            'events_analysis': events_analysis,
+            'temporal_analysis': temporal_analysis,
+            'htc_stats': htc_stats,
+            'htc_events_count': len(htc_events),
+            'ref_events_count': len(ref_events)
+        }
+        
+        self.logger.info("✅ Comparação com JSONL concluída!")
+        return result
+    
+    def _dataframe_to_events(self, df: pd.DataFrame, simulator_type: str) -> List:
+        """Converte DataFrame em lista de eventos para compatibilidade"""
+        events = []
+        
+        for _, row in df.iterrows():
+            if simulator_type == 'htc':
+                # Criar evento HTC com a estrutura correta
+                event_data = {
+                    'tick': row.get('tick', 0),
+                    'event_type': row.get('data_event_type', 'unknown'),
+                    'car_id': row.get('car_id', ''),
+                    'link_id': row.get('link_id', ''),
+                    'cars_in_link': row.get('cars_in_link', 0),
+                    'link_capacity': row.get('link_capacity', 0),
+                    'calculated_speed': row.get('calculated_speed', 0),
+                    'travel_time': row.get('travel_time', 0),
+                    'lanes': row.get('lanes', 0),
+                    'total_distance': row.get('total_distance', 0),
+                    'link_length': row.get('link_length', 0),
+                    'free_speed': row.get('free_speed', 0)
+                }
+                
+                event = HTCEvent(
+                    timestamp=row.get('tick', 0),
+                    car_id=row.get('car_id', ''),
+                    event_type=row.get('data_event_type', 'unknown'),
+                    tick=row.get('tick', 0),
+                    simulation_id=row.get('simulation_id', ''),
+                    node_id='',  # Não disponível nos dados JSONL
+                    report_type='vehicle_flow',  # Tipo padrão
+                    created_at=pd.Timestamp.now(),  # Timestamp atual
+                    data=event_data
+                )
+            else:
+                # Criar evento Interscsimulator
+                event = InterscsimulatorEvent(
+                    time=row.get('tick', 0),
+                    event_type=row.get('data_event_type', 'unknown'),
+                    car_id=row.get('car_id', ''),
+                    link_id=row.get('link_id', ''),
+                    cars_in_link=row.get('cars_in_link', 0),
+                    link_capacity=row.get('link_capacity', 0),
+                    calculated_speed=row.get('calculated_speed', 0)
+                )
+            
+            events.append(event)
+        
+        return events
+    
+    def _analyze_routes_comparison(self, htc_stats: Dict, ref_events: List) -> Dict:
+        """Analisa comparação de rotas entre simuladores"""
+        
+        # Extrair rotas do HTC
+        htc_routes = htc_stats.get('routes_data', {})
+        
+        # Extrair rotas do simulador de referência
+        ref_routes = {}
+        ref_df = self.metrics_calculator._events_to_dataframe(ref_events)
+        route_events = ref_df[ref_df['event_type'] == 'route_planned']
+        
+        for _, row in route_events.iterrows():
+            car_id = row.get('car_id')
+            if car_id:
+                # Função auxiliar para processar strings que podem ser NaN/float
+                def safe_split(value, delimiter=','):
+                    if pd.isna(value) or not isinstance(value, str) or not value.strip():
+                        return []
+                    return value.split(delimiter)
+                
+                ref_routes[car_id] = {
+                    'origin': row.get('origin'),
+                    'destination': row.get('destination'),
+                    'route_length': row.get('route_length'),
+                    'route_cost': row.get('route_cost'),
+                    'route_links': safe_split(row.get('route_links')),
+                    'route_nodes': safe_split(row.get('route_nodes'))
+                }
+        
+        # Comparar rotas
+        routes_comparison = {
+            'htc_routes_count': len(htc_routes),
+            'ref_routes_count': len(ref_routes),
+            'matching_vehicles': 0,
+            'route_length_differences': [],
+            'route_cost_differences': [],
+            'route_complexity_differences': []
+        }
+        
+        for car_id, htc_route in htc_routes.items():
+            normalized_car_id = self.id_normalizer.normalize_car_id(car_id, 'htc')
+            
+            # Buscar rota correspondente
+            ref_route = None
+            for ref_car_id, ref_route_data in ref_routes.items():
+                if normalized_car_id in ref_car_id or ref_car_id in normalized_car_id:
+                    ref_route = ref_route_data
+                    break
+            
+            if ref_route:
+                routes_comparison['matching_vehicles'] += 1
+                
+                # Comparar comprimento
+                htc_length = htc_route.get('route_length', 0)
+                ref_length = ref_route.get('route_length', 0)
+                if htc_length > 0 and ref_length > 0:
+                    length_diff = abs(htc_length - ref_length) / max(htc_length, ref_length)
+                    routes_comparison['route_length_differences'].append(length_diff)
+                
+                # Comparar custo
+                htc_cost = htc_route.get('route_cost', 0)
+                ref_cost = ref_route.get('route_cost', 0)
+                if htc_cost > 0 and ref_cost > 0:
+                    cost_diff = abs(htc_cost - ref_cost) / max(htc_cost, ref_cost)
+                    routes_comparison['route_cost_differences'].append(cost_diff)
+                
+                # Comparar complexidade (número de links)
+                htc_links = len(htc_route.get('route_links', []))
+                ref_links = len(ref_route.get('route_links', []))
+                if htc_links > 0 and ref_links > 0:
+                    complexity_diff = abs(htc_links - ref_links) / max(htc_links, ref_links)
+                    routes_comparison['route_complexity_differences'].append(complexity_diff)
+        
+        # Calcular estatísticas resumo
+        if routes_comparison['route_length_differences']:
+            routes_comparison['avg_length_difference'] = np.mean(routes_comparison['route_length_differences'])
+            routes_comparison['max_length_difference'] = np.max(routes_comparison['route_length_differences'])
+        
+        if routes_comparison['route_cost_differences']:
+            routes_comparison['avg_cost_difference'] = np.mean(routes_comparison['route_cost_differences'])
+            routes_comparison['max_cost_difference'] = np.max(routes_comparison['route_cost_differences'])
+        
+        if routes_comparison['route_complexity_differences']:
+            routes_comparison['avg_complexity_difference'] = np.mean(routes_comparison['route_complexity_differences'])
+            routes_comparison['max_complexity_difference'] = np.max(routes_comparison['route_complexity_differences'])
+        
+        return routes_comparison
+    
+    def _analyze_events_distribution(self, htc_stats: Dict, ref_events: List) -> Dict:
+        """Analisa distribuição de tipos de eventos"""
+        
+        htc_events_by_type = htc_stats.get('events_by_type', {})
+        
+        # Contar eventos do simulador de referência
+        ref_events_by_type = {}
+        for event in ref_events:
+            event_type = event.event_type if hasattr(event, 'event_type') else getattr(event, 'type', 'unknown')
+            ref_events_by_type[event_type] = ref_events_by_type.get(event_type, 0) + 1
+        
+        # Comparar distribuições
+        all_event_types = set(htc_events_by_type.keys()) | set(ref_events_by_type.keys())
+        
+        comparison = {
+            'htc_total': sum(htc_events_by_type.values()),
+            'ref_total': sum(ref_events_by_type.values()),
+            'event_type_comparison': {},
+            'missing_in_htc': [],
+            'missing_in_ref': [],
+            'distribution_differences': {}
+        }
+        
+        for event_type in all_event_types:
+            htc_count = htc_events_by_type.get(event_type, 0)
+            ref_count = ref_events_by_type.get(event_type, 0)
+            
+            comparison['event_type_comparison'][event_type] = {
+                'htc_count': htc_count,
+                'ref_count': ref_count,
+                'difference': htc_count - ref_count,
+                'htc_percentage': htc_count / comparison['htc_total'] * 100 if comparison['htc_total'] > 0 else 0,
+                'ref_percentage': ref_count / comparison['ref_total'] * 100 if comparison['ref_total'] > 0 else 0
+            }
+            
+            if htc_count == 0 and ref_count > 0:
+                comparison['missing_in_htc'].append(event_type)
+            elif ref_count == 0 and htc_count > 0:
+                comparison['missing_in_ref'].append(event_type)
+            
+            # Calcular diferença de distribuição
+            if comparison['htc_total'] > 0 and comparison['ref_total'] > 0:
+                htc_prop = htc_count / comparison['htc_total']
+                ref_prop = ref_count / comparison['ref_total']
+                comparison['distribution_differences'][event_type] = abs(htc_prop - ref_prop)
+        
+        return comparison
+    
+    def _analyze_temporal_aspects(self, htc_df: pd.DataFrame, ref_events: List) -> Dict:
+        """Analisa aspectos temporais das simulações"""
+        
+        # Duração das simulações
+        htc_duration = htc_df['tick'].max() - htc_df['tick'].min() if not htc_df.empty else 0
+        
+        ref_times = [getattr(event, 'time', getattr(event, 'timestamp', 0)) for event in ref_events]
+        ref_duration = max(ref_times) - min(ref_times) if ref_times else 0
+        
+        # Taxa de eventos por tick
+        htc_events_per_tick = len(htc_df) / htc_duration if htc_duration > 0 else 0
+        ref_events_per_tick = len(ref_events) / ref_duration if ref_duration > 0 else 0
+        
+        # Análise de picos de atividade
+        htc_events_by_tick = htc_df.groupby('tick').size() if not htc_df.empty else pd.Series()
+        
+        ref_df = self.metrics_calculator._events_to_dataframe(ref_events)
+        # Corrigir nome da coluna - usar 'tick' em vez de 'time'
+        ref_events_by_tick = ref_df.groupby('tick').size() if not ref_df.empty else pd.Series()
+        
+        analysis = {
+            'htc_duration': htc_duration,
+            'ref_duration': ref_duration,
+            'duration_difference': abs(htc_duration - ref_duration),
+            'htc_events_per_tick': htc_events_per_tick,
+            'ref_events_per_tick': ref_events_per_tick,
+            'events_rate_difference': abs(htc_events_per_tick - ref_events_per_tick),
+            'htc_peak_activity': htc_events_by_tick.max() if not htc_events_by_tick.empty else 0,
+            'ref_peak_activity': ref_events_by_tick.max() if not ref_events_by_tick.empty else 0,
+            'htc_avg_activity': htc_events_by_tick.mean() if not htc_events_by_tick.empty else 0,
+            'ref_avg_activity': ref_events_by_tick.mean() if not ref_events_by_tick.empty else 0
+        }
+        
+        return analysis
 
 
 # Exemplo de uso

@@ -366,9 +366,17 @@ class MetricsCalculator:
         if not events:
             return pd.DataFrame()
         
-        data = []
+        self.logger.info(f"🔄 Convertendo {len(events):,} eventos para DataFrame...")
         
-        for event in events:
+        data = []
+        progress_interval = max(1, len(events) // 20)  # Log a cada 5% do progresso
+        
+        for i, event in enumerate(events):
+            # Log de progresso a cada 5%
+            if i > 0 and i % progress_interval == 0:
+                progress_pct = (i / len(events)) * 100
+                self.logger.info(f"   📊 {progress_pct:.0f}% processado ({i:,}/{len(events):,} eventos)")
+            
             row = {
                 'timestamp': event.timestamp,
                 'car_id': event.car_id,
